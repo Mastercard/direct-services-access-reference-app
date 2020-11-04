@@ -16,6 +16,7 @@ The sample below provides the specific fields required by the transaction histor
   },
   "card": {
     "accountNumber": "5400000000000000",
+    "sequenceNumber": "891",
     "token": {
       "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
     }

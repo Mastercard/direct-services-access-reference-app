@@ -16,6 +16,9 @@ The sample below provides the specific fields required by the reversal use case.
   "card": {
     "accountNumber": "5400000000000000"
   },
+  "transaction": {
+    "amount": 123
+  },
   "original": {
     "responseCode": "00"
   }

@@ -9,22 +9,26 @@ The sample below provides the specific fields required by the reversal use case.
 
 ```json
 {
-  "response":{
-    "responseCode":"12",
-    "mastercardReferenceId":"0SBQAN",
-    "card":{
-      "accountNumber":"5400000000000000"}
+  "response": {
+    "responseCode": "12",
+    "mastercardReferenceId": "00NUAN",
+    "card": {
+      "accountNumber": "5400000000000000"
+    }
+  },
+  "request": {
+    "serviceType": "REVERSAL",
+    "customer": {
+      "id": "567899"
     },
-  "request":{
-    "serviceType":"REVERSAL",
-    "customer":{
-      "id":"567899"
+    "card": {
+      "accountNumber": "5400000000000000"
     },
-    "card":{
-      "accountNumber":"5400000000000000"
+    "transaction": {
+      "amount": 123
     },
-    "original":{
-      "responseCode":"00"
+    "original": {
+      "responseCode": "00"
     }
   }
 }

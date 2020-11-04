@@ -23,7 +23,7 @@ paths:
               $ref: '#/components/schemas/DirectServiceRequest'
             examples:
               E-Commerce:
-                description: A Sample E-Commerce request
+                description: An E-Commerce request performs an MDES detokenization and crypto validation service for cardholders using digital devices for E-commerce purchases.
                 value:
                   serviceType: "ORIGINAL"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -33,11 +33,12 @@ paths:
                     accountNumber: "5400000000000000"
                     expiry: "2023-12"
                     validationCode: "567"
-                    sequenceNumber: 891
+                    sequenceNumber: "891"
                   transaction:
                     transactionType: "00"
                     fromAccountType: "20"
                     toAccountType: "20"
+                    amount: 50000
                   terminal:
                     panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                   cardAcceptor:
@@ -55,7 +56,7 @@ paths:
                     cardholderAuthentication: 0
                     ucafCollectionIndicator: 0
               In-Person:
-                description: A Sample In-Person request
+                description: An In-Person request performs an MDES detokenization and crypto validation service for cardholders using digital devices for in-store purchases via Contactless and Dynamic Magnetic Stripe payment methods.
                 value:
                   serviceType: "ORIGINAL"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -64,16 +65,19 @@ paths:
                   card:
                     accountNumber: "5400000000000000"
                     expiry: "2023-12"
-                    sequenceNumber: 891
+                    sequenceNumber: "891"
+                  transaction:
+                    amount: 50000
                   terminal:
                     panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                   cardAcceptor:
                     merchantType: "5499"
                   security:
+                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
                     magStripeTrack1Data: "94569790763027849890254982D87398989279"
                     magStripeTrack2Data: "9456963027849254982D8739279"
               Reversal:
-                description: A Sample Reversal request
+                description: A Reversal request supports the reversal of an original MDES transaction purchase made via E-commerce or In-Person DSA API request.
                 value:
                   serviceType: "REVERSAL"
                   customer:
@@ -85,7 +89,7 @@ paths:
                   original:
                     responseCode: "00"
               Acquirer-Advice:
-                description: A Sample Acquirer-Advice request
+                description: An Acquirer Advice request supports acquirer-generated advice to Mastercard when an MDES purchase transaction is declined by an Issuer.
                 value:
                   serviceType: "ADVICE"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -100,7 +104,7 @@ paths:
                   original:
                     responseCode: "00"
               Transaction-History-Advice:
-                description: A Sample Transaction-History-Advice request
+                description: A Transaction History Advice request allows a customer to provide transaction advice for the Mastercard Transaction Details Service (TDS) after transaction processing. The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification, and delivery of transaction details.
                 value:
                   serviceType: "ADVICE"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -108,6 +112,7 @@ paths:
                     id: "567899"
                   card:
                     accountNumber: "5400000000000000"
+                    sequenceNumber: "891"
                     token:
                       transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                   transaction:
@@ -141,7 +146,7 @@ paths:
                         issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
                         atcInfo: "0008800042G"
               Fraud-Services-Original:
-                description: A Sample Fraud-Services-Original request
+                description: A Fraud Services Original request supports the Mastercard Safety and Security Services “Fraud Service Safety Net, Fraud Rules Manage, Decision Intelligence, and Consumer Controls” and provides fraud scoring.
                 value:
                   serviceType: "ORIGINAL"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -151,10 +156,8 @@ paths:
                     accountNumber: "5400000000000000"
                     expiry: "2023-12"
                     validationCode: "567"
-                    sequenceNumber: 891
+                    sequenceNumber: "891"
                     country: "840"
-                    token:
-                      type: "C"
                   transaction:
                     transactionType: "00"
                     fromAccountType: "20"
@@ -163,6 +166,7 @@ paths:
                     typeIdentifier: "C01"
                     amount: "000000050000"
                     currency: "840"
+                    submittedOn: "2019-04-12T10:28:04.651"
                     settlementAmount: "000000050000"
                     settlementCurrency: "840"
                     billingAmount: "000000050000"
@@ -172,7 +176,6 @@ paths:
                     category: "T"
                     adviceReasonCode: "000"
                     promotionCode: "GREECE"
-                    cardholderVerificationMethod: "P"
                   terminal:
                     panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                     pinEntryMode: "0"
@@ -205,21 +208,16 @@ paths:
                     pinBlock: "AQJeCgULCwc="
                     pinBlockFormat: "ISO_FORMAT_0"
                     pinKeyIndex: 98
+                    digitalPayment:
+                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
                   authentication:
                     securityProtocol: 9
                     cardholderAuthentication: 0
                     ucafCollectionIndicator: 0
                     avsResponseCode: "P"
                     cvcResponseCode: "M"
-                  original:
-                    responseCode: "00"
-                    securityServices:
-                      - code: "18"
-                        result: "C"
-                      - code: "18"
-                        result: "U"
               Fraud-Services-Advice:
-                description: A Sample Fraud-Services-Advice request
+                description: A Fraud Services Advice request supports customer-generated advice to Mastercard when an original transaction is declined by an Issuer.
                 value:
                   serviceType: "ADVICE"
                   clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -292,7 +290,7 @@ paths:
                     accountNumber: "5400000000000000"
                     expiry: "2023-12"
                     validationCode: "567"
-                    sequenceNumber: 891
+                    sequenceNumber: "891"
                     country: "840"
                     token:
                       transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
@@ -397,7 +395,7 @@ paths:
                 $ref: '#/components/schemas/DirectServiceResponse'
               examples:
                 E-Commerce:
-                  description: A Sample E-Commerce response
+                  description: MDES detokenization and crypto validation service for cardholders using digital device for E-commerce purchase
                   value:
                     response:
                       responseCode: "00"
@@ -434,7 +432,6 @@ paths:
                       security:
                         pinBlock: "AQJeCgULCwc="
                         digitalPayment:
-                          estimatedAmount: 123
                           merchantId: "d3d3Lm1hY3lzLmNvbQ=="
                     request:
                       serviceType: "ORIGINAL"
@@ -445,11 +442,12 @@ paths:
                         accountNumber: "5400000000000000"
                         expiry: "2023-12"
                         validationCode: "567"
-                        sequenceNumber: 891
+                        sequenceNumber: "891"
                       transaction:
                         transactionType: "00"
                         fromAccountType: "20"
                         toAccountType: "20"
+                        amount: 50000
                       terminal:
                         panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                       cardAcceptor:
@@ -465,7 +463,7 @@ paths:
                         cardholderAuthentication: 0
                         ucafCollectionIndicator: 0
                 In-Person:
-                  description: A Sample In-Person response
+                  description: MDES detokenization and crypto validation service for cardholders using digital device for in-store purchase via Contactless and Dynamic Magnetic Stripe
                   value:
                     response:
                       responseCode: "00"
@@ -500,19 +498,23 @@ paths:
                       card:
                         accountNumber: "5400000000000000"
                         expiry: "2023-12"
-                        sequenceNumber: 891
+                        sequenceNumber: "891"
+                      transaction:
+                        amount: 50000
                       terminal:
                         panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                       cardAcceptor:
                         merchantType: "5499"
                       security:
+                        chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
                         magStripeTrack1Data: "94569790763027849890254982D87398989279"
                         magStripeTrack2Data: "9456963027849254982D8739279"
                 Reversal:
-                  description: A Sample Reversal response
+                  description: Support Reversal of MDES Original transaction purchase via E-commerce or In-Person
                   value:
                     response:
                       responseCode: "00"
+                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
                       mastercardReferenceId: "123456789"
                       card:
                         accountNumber: "5400000000000000"
@@ -535,7 +537,7 @@ paths:
                       original:
                         responseCode: "00"
                 Acquirer-Advice:
-                  description: A Sample Acquirer-Advice response
+                  description: Support Acquirer generated advice to Mastercard when MDES purchase transaction is declined by Issuer
                   value:
                     response:
                       responseCode: "00"
@@ -572,10 +574,11 @@ paths:
                       transaction:
                         amount: "0000000050000"
                         currency: "840"
+                        adviceReasonCode: "190"
                       original:
                         responseCode: "00"
                 Transaction-History-Advice:
-                  description: A Sample Transaction-History-Advice response
+                  description: Allows customer to provide transaction advice after transaction processing for the Transaction Details Service (TDS). The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification and delivery of transaction details
                   value:
                     response:
                       responseCode: "00"
@@ -588,6 +591,7 @@ paths:
                         id: "567899"
                       card:
                         accountNumber: "5400000000000000"
+                        sequenceNumber: "891"
                         token:
                           transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                       transaction:
@@ -620,7 +624,7 @@ paths:
                             issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
                             atcInfo: "0008800042G"
                 Fraud-Services-Original:
-                  description: A Sample Fraud-Services-Original response
+                  description: Supports Mastercard Safety and Security Services “fraud service Safety Net, Fraud Rules Manage,  Decision Intelligence and Consumer Controls” and provides fraud scoring
                   value:
                     response:
                       responseCode: "00"
@@ -642,6 +646,9 @@ paths:
                         cvcResponseCode: "M"
                       security:
                         pinBlock: "AQJeCgULCwc="
+                        digitalPayment:
+                          estimatedAmount: 123
+                          merchantId: "d3d3Lm1hY3lzLmNvbQ=="
                       wallet:
                         id: "103"
                       services:
@@ -660,7 +667,7 @@ paths:
                         cardholderAuthentication: 0
                         ucafCollectionIndicator: 0
                     request:
-                      serviceType: "ADVICE"
+                      serviceType: "ORIGINAL"
                       clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
                       customer:
                         id: "567899"
@@ -668,16 +675,17 @@ paths:
                         accountNumber: "5400000000000000"
                         expiry: "2023-12"
                         validationCode: "567"
-                        sequenceNumber: 891
+                        sequenceNumber: "891"
                         country: "840"
                       transaction:
                         transactionType: "00"
-                        fromAccountType: "00"
-                        toAccountType: "00"
+                        fromAccountType: "20"
+                        toAccountType: "20"
                         purpose: 0
                         typeIdentifier: "C01"
                         amount: "000000050000"
                         currency: "840"
+                        submittedOn:: "2019-04-12T10:28:04.651"
                         settlementAmount: "000000050000"
                         settlementCurrency: "840"
                         billingAmount: "000000050000"
@@ -687,7 +695,6 @@ paths:
                         category: "T"
                         adviceReasonCode: "000"
                         promotionCode: "GREECE"
-                        cardholderVerificationMethod: "P"
                       terminal:
                         panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                         pinEntryMode: "0"
@@ -720,20 +727,16 @@ paths:
                         pinBlock: "AQJeCgULCwc="
                         pinBlockFormat: "ISO_FORMAT_0"
                         pinKeyIndex: 98
+                        digitalPayment:
+                          merchantId: "d3d3Lm1hY3lzLmNvbQ=="
                       authentication:
                         securityProtocol: 9
                         cardholderAuthentication: 0
                         ucafCollectionIndicator: 0
+                        avsResponseCode: "P"
                         cvcResponseCode: "M"
-                      original:
-                        responseCode: "00"
-                        securityServices:
-                          - code: "18"
-                            result: "C"
-                          - code: "18"
-                            result: "U"
                 Fraud-Services-Advice:
-                  description: A Sample Fraud-Services-Advice response
+                  description: Support Customer generated advice to Mastercard when Original transaction is declined by Issuer
                   value:
                     response:
                       responseCode: "00"
@@ -849,7 +852,7 @@ paths:
                         accountNumber: "5400000000000000"
                         expiry: "2023-12"
                         validationCode: "567"
-                        sequenceNumber: 891
+                        sequenceNumber: "891"
                         country: "840"
                         token:
                           transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
@@ -1024,9 +1027,8 @@ components:
           example: "123"
           description: CVC 2
         sequenceNumber:
-          type: integer
-          format: int32
-          example: 123
+          type: string
+          example: "123"
           description: Sequence Number
         country:
           type: string
@@ -1178,7 +1180,7 @@ components:
           type: integer
           format: int32
           example: 1
-          description: Indicates the card acceptor’s confidence in the transaction security level.
+          description: Indicates the card acceptor's confidence in the transaction security level.
         cardholderActivated:
           type: integer
           format: int32
@@ -1208,7 +1210,7 @@ components:
           maxLength: 10
           example: "63368"
           description:  Indicates the geographic code of the POS (merchant) location (not the
-            acquirer’s location).
+            acquirer's location).
     Location:
       type: object
       description: Details of the location of the card acceptor.
@@ -1338,7 +1340,7 @@ components:
         cvcResponseCode:
           type: string
           example: "M"
-          description: CVC Response Code
+          description: CVC Response Code. Possible values - [E, M, N, P, S, U, Y].
     OriginalAuthorization:
       type: object
       description: Details of the original transaction to be reversed.
@@ -1425,7 +1427,7 @@ components:
         cvcResponseCode:
           type: string
           example: "M"
-          description: CVC Response. Possible values - [M, N, P, S, U]
+          description: CVC Response Code. Possible values - [E, M, N, P, S, U, Y].
         avsResponseCode:
           type: string
           example: "A"

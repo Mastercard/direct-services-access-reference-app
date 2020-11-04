@@ -126,6 +126,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [AllFieldsRequest](docs/AllFieldsRequest.md) | [AllFieldsResponse](docs/AllFieldsResponse.md) |
   
 > Case 2: [E-COMMERCE](https://developer.mastercard.com/direct-service/documentation/parameters/ecommerce/)
+  - An E-Commerce request performs a Mastercard Digital Enablement Service (MDES) detokenization and crypto validation service for cardholders using digital devices for E-commerce purchases.
   - User performs an API request for a transaction using a digital token online, not in person.
   - Refer to model classes for field level information.
   
@@ -134,6 +135,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [ECommerceRequest](docs/ECommerceRequest.md) | [ECommerceResponse](docs/ECommerceResponse.md) |
     
 > Case 3: [IN-PERSON](https://developer.mastercard.com/direct-service/documentation/parameters/inperson/)
+  - An In-Person request performs a Mastercard Digital Enablement Service (MDES) detokenization and crypto validation service for cardholders using digital devices for in-store purchases via Contactless and Dynamic Magnetic Stripe payment methods. 
   - User performs an API request for a transaction using a digital token in person.
   - Refer to model classes for field level information.
     
@@ -142,6 +144,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [InPersonRequest](docs/InPersonRequest.md) | [InPersonResponse](docs/InPersonResponse.md) |
 
 > Case 4: [REVERSAL](https://developer.mastercard.com/direct-service/documentation/parameters/reversal/)
+  - A Reversal request supports the reversal of a Mastercard Digital Enablement Service (MDES) Original transaction purchase made via E-commerce or In-Person DSA API request.
   - User performs an API request for a reversal of an API request previously made.
   - Refer to model classes for field level information.
     
@@ -150,6 +153,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [ReversalRequest](docs/ReversalRequest.md) | [ReversalResponse](docs/ReversalResponse.md) |
     
 > Case 5: [ACQUIRER ADVICE](https://developer.mastercard.com/direct-service/documentation/parameters/acquireradvice/)
+  - An Acquirer Advice request supports Acquirer generated advice to Mastercard when a Mastercard Digital Enablement Service (MDES) purchase transaction is declined by an Issuer.
   - User performs an API request to gather advice about a previous authorization that was made.
   - Refer to model classes for field level information.
 
@@ -158,6 +162,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [AcquirerAdviceRequest](docs/AcquirerAdviceRequest.md) | [AcquirerAdviceResponse](docs/AcquirerAdviceResponse.md) |
 
 > Case 6: [TRANSACTION HISTORY ADVICE](https://developer.mastercard.com/direct-service/documentation/parameters/transactionhistoryadvice/)
+  - A Transaction History Advice request allows a customer to provide transaction advice for the Transaction Details Service (TDS) after transaction processing. The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification, and delivery of transaction details.
   - User performs an API request to gather advice about a previous transaction that was made.
   - Refer to model classes for field level information.
         
@@ -166,6 +171,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [TransactionHistoryAdviceRequest](docs/TransactionHistoryAdviceRequest.md) | [TransactionHistoryAdviceResponse](docs/TransactionHistoryAdviceResponse.md) |
 
 > Case 7: [FRAUD SERVICES ORIGINAL](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesoriginal/)
+  - A Fraud Services Original request supports the Mastercard Safety and Security Services “Fraud Service Safety Net, Fraud Rules Manage, Decision Intelligence, and Consumer Controls” and provides fraud scoring.
   - User performs an API request to request Mastercard fraud services to be performed for a particular transaction.
   - Refer to model classes for field level information.
         
@@ -174,6 +180,7 @@ When the project builds successfully you can then run the following command to s
     | `/services` | POST | [FraudServicesOriginalRequest](docs/FraudServicesOriginalRequest.md) | [FraudServicesOriginalResponse](docs/FraudServicesOriginalResponse.md) |
 
 > Case 8: [FRAUD SERVICES ADVICE](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesadvice/)
+  - A Fraud Services Advice request supports customer generated advice to Mastercard when an original transaction is declined by an Issuer.
   - User performs an API request to gather advice about a previous fraud services original request (use case above) that was made.
   - Refer to model classes for field level information.
           
@@ -196,13 +203,13 @@ To learn which fields are required for each use case request, refer to the docum
 | API Request Type | Endpoint | HTTP Method | Description |
 | :-- | :------- | :---------- | :---------- |
 | [All Fields/Combined](https://developer.mastercard.com/direct-service/documentation/parameters/allfields/) | `/services` | POST | User performs an API request with a combination of fields from different use cases below to execute multiple use cases simultaneously. |
-| [E-Commerce](https://developer.mastercard.com/direct-service/documentation/parameters/ecommerce/) | `/services` | POST | User performs an API request for a transaction using a digital token online, not in person. |
-| [In-Person](https://developer.mastercard.com/direct-service/documentation/parameters/inperson/) | `/services` | POST | User performs an API request for a transaction using a digital token in person. |
-| [Reversal](https://developer.mastercard.com/direct-service/documentation/parameters/reversal/) | `/services` | POST | User performs an API request for a reversal of an API request previously made. |
-| [Acquirer Advice](https://developer.mastercard.com/direct-service/documentation/parameters/acquireradvice/) | `/services` | POST | User performs an API request to gather advice about a previous authorization that was made. |
-| [Transaction History Advice](https://developer.mastercard.com/direct-service/documentation/parameters/transactionhistoryadvice/) | `/services` | POST | User performs an API request to gather advice about a previous transaction that was made. |
-| [Fraud Services Original](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesoriginal/) | `/services` | POST | User performs an API request to request Mastercard fraud services to be performed for a particular transaction. |
-| [Fraud Services Advice](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesadvice/) | `/services` | POST | User performs an API request to gather advice about a previous fraud services original request (use case above) that was made. | 
+| [E-Commerce](https://developer.mastercard.com/direct-service/documentation/parameters/ecommerce/) | `/services` | POST | Mastercard Digital Enablement Service (MDES) detokenization and crypto validation service for cardholders using digital device for an E-commerce purchase. |
+| [In-Person](https://developer.mastercard.com/direct-service/documentation/parameters/inperson/) | `/services` | POST | An In-Person request performs a Mastercard Digital Enablement Service (MDES) detokenization and crypto validation service for cardholders using digital devices for in-store purchases via Contactless and Dynamic Magnetic Stripe payment methods. |
+| [Reversal](https://developer.mastercard.com/direct-service/documentation/parameters/reversal/) | `/services` | POST | A Reversal request supports the reversal of a Mastercard Digital Enablement Service (MDES) Original transaction purchase made via E-commerce or In-Person DSA API request. |
+| [Acquirer Advice](https://developer.mastercard.com/direct-service/documentation/parameters/acquireradvice/) | `/services` | POST | An Acquirer Advice request supports Acquirer generated advice to Mastercard when a Mastercard Digital Enablement Service (MDES) purchase transaction is declined by an Issuer. |
+| [Transaction History Advice](https://developer.mastercard.com/direct-service/documentation/parameters/transactionhistoryadvice/) | `/services` | POST | A Transaction History Advice request allows a customer to provide transaction advice for the Transaction Details Service (TDS) after transaction processing. The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification, and delivery of transaction details. |
+| [Fraud Services Original](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesoriginal/) | `/services` | POST | A Fraud Services Original request supports the Mastercard Safety and Security Services “Fraud Service Safety Net, Fraud Rules Manage, Decision Intelligence, and Consumer Controls” and provides fraud scoring. |
+| [Fraud Services Advice](https://developer.mastercard.com/direct-service/documentation/parameters/fraudservicesadvice/) | `/services` | POST | A Fraud Services Advice request supports customer generated advice to Mastercard when an original transaction is declined by an Issuer. | 
 
 You can change the default input passed to APIs, modify values in following files:
 * `com.mastercard.developer.example.DirectServicesExample.java`

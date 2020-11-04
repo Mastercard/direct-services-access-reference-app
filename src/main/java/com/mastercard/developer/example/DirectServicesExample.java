@@ -56,7 +56,7 @@ public class DirectServicesExample {
     CardRequest cardRequest = new CardRequest();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
-    cardRequest.setSequenceNumber(891);
+    cardRequest.setSequenceNumber("891");
     cardRequest.setCountry("840");
     cardRequest.setToken(new TokenRequest().transactionId("fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=").type("C"));
     combinedRequest.card(cardRequest);
@@ -148,7 +148,7 @@ public class DirectServicesExample {
     CardRequest cardRequest = new CardRequest();
     cardRequest.accountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
-    cardRequest.setSequenceNumber(891);
+    cardRequest.setSequenceNumber("891");
     eCommerceRequest.card(cardRequest);
     TransactionRequest transactionRequest = new TransactionRequest();
     transactionRequest.setTransactionType("00");
@@ -197,7 +197,7 @@ public class DirectServicesExample {
     inPersonRequest.setCustomer(customer);
     CardRequest cardRequest = new CardRequest();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
-    cardRequest.setSequenceNumber(891);
+    cardRequest.setSequenceNumber("891");
     inPersonRequest.card(cardRequest);
     inPersonRequest.setTerminal(new Terminal().panEntryMode(PAN_ENTRY_MODE));
     inPersonRequest.setCardAcceptor(new CardAcceptor().merchantType("5499"));
@@ -348,7 +348,7 @@ public class DirectServicesExample {
     CardRequest cardRequest = new CardRequest();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
-    cardRequest.setSequenceNumber(891);
+    cardRequest.setSequenceNumber("891");
     cardRequest.setCountry("840");
     cardRequest.setToken(new TokenRequest().type("C"));
     fraudServicesOriginalRequest.card(cardRequest);

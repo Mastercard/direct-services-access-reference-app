@@ -6,7 +6,7 @@
 | :--- | :--- | :---------- | :---- |
 | **transactionType** | string | Cardholder Transaction Type Code. It describes the specific transaction type. Must be a 2-digit numeric string. | Optional |
 | **fromAccountType** | string | Cardholder “From Account” Type Code describes the cardholder account type affected for cardholder account debits and inquiries and the “from account” type for cardholder account transfer transactions. Must be a 2-digit numeric string. | Optional |
-| **toAccountType** | string | Cardholder “To Account” Type Code describes the cardholder account type affected for cardholder account credits and the “to account” type for cardholder account transfer transactions. | Optional |
+| **toAccountType** | string | Cardholder “To Account” Type Code describes the cardholder account type affected for cardholder account credits and the “to account” type for cardholder account transfer transactions. Must be a 2-digit numeric string. | Optional |
 | **purpose** | integer | Transaction purpose code. | Optional |
 | **typeIdentifier** | string | Indicates the type of additional transaction purpose. 1-3 byte string. | Optional |
 | **amount** | integer | Transaction amount. Must not be a negative amount, and must not be greater than 9999999999999999. | Optional |

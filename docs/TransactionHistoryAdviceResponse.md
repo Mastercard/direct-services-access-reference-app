@@ -9,74 +9,78 @@ The sample below provides the specific fields required by the transaction histor
 
 ```json
 {
-  "response":{
-    "responseCode":"85",
-    "clientTransactionId":"03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
-    "mastercardReferenceId":"123456789",
-    "card":{
-      "accountNumber":"5400000000000000"
+  "response": {
+    "responseCode": "85",
+    "clientTransactionId": "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
+    "mastercardReferenceId": "123456789",
+    "card": {
+      "accountNumber": "5400000000000000",
+      "token": {
+        "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+      }
     },
-    "services":[
+    "services": [
       {
-        "code":"50",
-        "result":"C"
+        "code": "50",
+        "result": "C"
       },
       {
-        "code":"51",
-        "result":"V"
+        "code": "51",
+        "result": "V"
       }
     ]
   },
-  "request":{
-    "serviceType":"ADVICE",
-    "clientTransactionId":"03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
-    "customer":{
-      "id":"567899"
+  "request": {
+    "serviceType": "ADVICE",
+    "clientTransactionId": "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
+    "customer": {
+      "id": "567899"
     },
-    "card":{
-      "accountNumber":"5400000000000000",
-      "token":{
-        "transactionId":"fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+    "card": {
+      "accountNumber": "5400000000000000",
+      "sequenceNumber": "891",
+      "token": {
+        "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
       }
     },
-    "transaction":{
-      "transactionType":"00",
-      "fromAccountType":"20",
-      "toAccountType":"20",
-      "amount":50000,
-      "currency":"840",
-      "submittedOn":"2019-04-12T10:28:04",
-      "adviceReasonCode":"201"
+    "transaction": {
+      "transactionType": "00",
+      "fromAccountType": "20",
+      "toAccountType": "20",
+      "amount": 50000,
+      "currency": "840",
+      "submittedOn": "2019-04-12T10:28:04",
+      "adviceReasonCode": "201"
     },
-    "terminal":{
-      "panEntryMode":"CONTACTLESS_MAGNETIC_STRIPE"
+    "terminal": {
+      "panEntryMode": "CONTACTLESS_MAGNETIC_STRIPE"
     },
-    "cardAcceptor":{
-      "name":"Walmart",
-      "location":{
-        "city":"O'Fallon",
-        "state":"MO",
-        "country":"USA"
+    "cardAcceptor": {
+      "name": "Walmart",
+      "location": {
+        "city": "O'Fallon",
+        "state": "MO",
+        "country": "USA"
       }
     },
-    "original":{
-      "mastercardReferenceId":"123456789",
-      "transaction":{
-        "transactionType":"00"
+    "original": {
+      "mastercardReferenceId": "123456789",
+      "transaction": {
+        "transactionType": "00"
       },
-      "authorizationCode":"123456",
-      "responseCode":"00",
-      "messageType":"0110",
-      "services":[
+      "authorizationCode": "123456",
+      "responseCode": "00",
+      "messageType": "0110",
+      "services": [
         {
-          "code":"50",
-          "result":"C"
+          "code": "50",
+          "result": "C"
         },
         {
-          "code":"51",
-          "result":"V",
-          "issuerAuthenticationData":"AQheCgcLCwcBCF4KBwsLBw==",
-          "atcInfo":"0008800042G"
+          "code": "51",
+          "result": "V",
+          "issuerAuthenticationData": "AQheCgcLCwcBCF4KBwsLBw==",
+          "atcInfo": "0008800042G"
         }
       ]
     }

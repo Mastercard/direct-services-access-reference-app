@@ -16,7 +16,7 @@ All properties for the request object are listed in the [Direct Service Request]
     "accountNumber": "5400000000000000",
     "expiry": "2023-12",
     "validationCode": "567",
-    "sequenceNumber": 891,
+    "sequenceNumber": "891",
     "country": "840",
     "token": {
       "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=",
@@ -71,7 +71,6 @@ All properties for the request object are listed in the [Direct Service Request]
     }
   },
   "security": {
-    "digitalPaymentCryptogram": "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw==",
     "chipData": "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw==",
     "magStripeTrack1Data": "94569790763027849890254982D87398989279",
     "magStripeTrack2Data": "9456963027849254982D8739279",
@@ -91,21 +90,21 @@ All properties for the request object are listed in the [Direct Service Request]
     "mastercardReferenceId": "123456789",
     "transaction": {
       "transactionType": "00",
-      "fromAccountType": "20",
-      "toAccountType": "20",
+      "fromAccountType": "00",
+      "toAccountType": "00",
       "purpose": 0,
       "typeIdentifier": "C01",
-      "amount": "000000050000",
+      "amount": 50000,
       "currency": "840",
-      "settlementAmount": "000000050000",
+      "settlementAmount": 50000,
       "settlementCurrency": "840",
-      "billingAmount": "000000050000",
+      "billingAmount": 50000,
       "billingCurrency": "840",
       "submittedOn": "2019-04-12T10:28:04.651",
       "billingConversionRate": "00050000",
       "settlementDate": "2019-04-12",
       "category": "T",
-      "adviceReasonCode": "000"
+      "adviceReasonCode": "201"
     },
     "authorizationCode": "123456",
     "responseCode": "00",

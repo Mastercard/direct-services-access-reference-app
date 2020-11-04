@@ -10,81 +10,79 @@ The sample below provides the specific fields required by the fraud services adv
 ```json
 {
   "serviceType": "ADVICE",
-  "clientTransactionId": "12345",
-	"customer": {
-	    "id": "567899"
-	},
-	"card": {
-		"accountNumber": "5400000000000000",
-		"validationCode": "567",
-		"token": {
+  "clientTransactionId": "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
+  "customer": {
+    "id": "567899"
+  },
+  "card": {
+    "accountNumber": "5400000000000000",
+    "validationCode": "567",
+    "country": "840",
+    "token": {
       "type": "C"
-    },		
-		"country": "840"     
-	},
-	"transaction": {
-		"transactionType": "00",
-		"fromAccountType": "00",
-		"toAccountType": "00",
-		"purpose": "00",
-		"category": "T",
-		"adviceReasonCode": "201",
-		"amount": "000000050000",
-		"currency": "840",
-		"settlementAmount": "000000050000",
-    "billingAmount": "000000050000",
-    "promotionCode": "GREECE"
-	},
-	"terminal": {
-		"panEntryMode": "CONTACTLESS_MAGNETIC_STRIPE",
-		"pinEntryMode": "0",
-		"attendance": 0,
-		"location": 0,
-		"cardholderPresence": 0,
-		"cardPresence": 0,
-		"cardCaptureCapabilities": 0,
-		"transactionSecurity": 0,
-		"cardholderActivated": 4,
-		"cardDataInputCapability": 2,
-		"authorizationLifeCycle": 0,
-		"country": "840",
-		"postalCode": "63026"
-	},
-	"cardAcceptor":{
-			"merchantType": "5499",
-			"terminalID": "ID12345",
-			"acquirerID":"123456",
-			"merchantID":"CD1234",
-			"name": "walmart",
-      "location": {
-        "city": "O'Fallon",
-        "state": "MO",
-        "country": "USA"
-      }
-	},
-	"security": {
-		"magStripeTrack2Data": "9456963027849254982D8739279"
-	},
-	"authentication": {
-		"cvcResponseCode": "M"
-	},
-	"original": {
+    }
+  },
+  "transaction": {
+    "transactionType": "00",
+    "fromAccountType": "00",
+    "toAccountType": "00",
+    "purpose": 0,
+    "typeIdentifier": "C01",
+    "amount": 50000,
+    "currency": "840",
+    "settlementAmount": 50000,
+    "billingAmount": 50000,
+    "category": "T",
+    "adviceReasonCode": "201",
+    "promotionCode": "GREECE",
+    "cardholderVerificationMethod": "P"
+  },
+  "terminal": {
+    "panEntryMode": "CONTACTLESS_MAGNETIC_STRIPE",
+    "pinEntryMode": "0",
+    "attendance": 0,
+    "location": 0,
+    "cardholderPresence": 0,
+    "cardPresence": 0,
+    "cardCaptureCapabilities": 0,
+    "transactionSecurity": 0,
+    "cardholderActivated": 4,
+    "cardDataInputCapability": 2,
+    "authorizationLifeCycle": 0,
+    "country": "840",
+    "postalCode": "63026"
+  },
+  "cardAcceptor": {
+    "merchantType": "5499",
+    "terminalId": "ID12345",
+    "acquirerId": "123456",
+    "merchantId": "ID12345",
+    "name": "Walmart",
+    "location": {
+      "city": "O'Fallon",
+      "state": "MO",
+      "country": "USA"
+    }
+  },
+  "security": {
+    "magStripeTrack2Data": "9456963027849254982D8739279"
+  },
+  "authentication": {
+    "cvcResponseCode": "M"
+  },
+  "original": {
+    "responseCode": "00",
     "mastercardReferenceId": "123456789",
-		"authorizationCode": "123456",
-		"responseCode": "00",
-    "messageType": "0110",
-    "services": [
+    "securityServices": [
       {
-        "code": "50",
+        "code": "18",
         "result": "C"
       },
       {
-        "code": "51",
-        "result": "V",
-        "issuerAuthenticationData": "AQheCgcLCwcBCF4KBwsLBw==",
-        "atcInfo": "0008800042G"
+        "code": "18",
+        "result": "U"
       }
     ]
-	}
+  }
 }
 ```
