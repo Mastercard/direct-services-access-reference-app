@@ -14,7 +14,8 @@ The sample below provides the specific fields required by the acquirer advice us
     "clientTransactionId": "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU=",
     "mastercardReferenceId": "00NYAN",
     "card": {
-      "accountNumber": "5400000000000000"
+      "accountNumber": "5400000000000000",
+      "expiry": "2023-01"
     }
   },
   "request": {

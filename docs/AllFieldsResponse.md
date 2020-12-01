@@ -13,6 +13,7 @@ All properties for the request object are listed in the [Direct Service Response
     "mastercardReferenceId": "123456789",
     "card": {
       "accountNumber": "5400000000000000",
+      "expiry": "2023-01",
       "token": {
         "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=",
         "type": "C"

@@ -405,6 +405,7 @@ paths:
                         category: "T"
                       card:
                         accountNumber: "5400000000000000"
+                        expiry: "2023-01"
                         token:
                           transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                           type: "C"
@@ -471,6 +472,7 @@ paths:
                       mastercardReferenceId: "123456789"
                       card:
                         accountNumber: "5400000000000000"
+                        expiry: "2023-01"
                         token:
                           transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                           type: "C"
@@ -518,6 +520,7 @@ paths:
                       mastercardReferenceId: "123456789"
                       card:
                         accountNumber: "5400000000000000"
+                        expiry: "2023-01"
                         token:
                           type: "C"
                           accountNumber: "5400000000000000"
@@ -547,6 +550,7 @@ paths:
                         category: "T"
                       card:
                         accountNumber: "5400000000000000"
+                        expiry: "2023-01"
                         token:
                           transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                           type: "C"
@@ -811,6 +815,7 @@ paths:
                       mastercardReferenceId: "123456789"
                       card:
                         accountNumber: "5400000000000000"
+                        expiry: "2023-01"
                         token:
                           transactionId: "123456"
                           type: "C"
@@ -1414,6 +1419,11 @@ components:
           type: string
           example: "5400000000000000"
           description: Funding/Real card number
+        expiry:
+          type: string
+          format: date
+          example: "2023-01"
+          description: Expiry date of Funding/ Real Card number
         token:
           $ref: '#/components/schemas/TokenResponse'
         paymentAccountReference:

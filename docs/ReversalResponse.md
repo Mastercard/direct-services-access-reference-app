@@ -13,7 +13,8 @@ The sample below provides the specific fields required by the reversal use case.
     "responseCode": "12",
     "mastercardReferenceId": "00NUAN",
     "card": {
-      "accountNumber": "5400000000000000"
+      "accountNumber": "5400000000000000",
+       "expiry": "2023-01"
     }
   },
   "request": {
