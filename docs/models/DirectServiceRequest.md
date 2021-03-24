@@ -8,6 +8,7 @@
 | **clientTransactionId** | string | Private use data that a customer may want to include in a message. Max limit of 200 characters. | Optional |
 | **customer** | object | Details of the customer requesting the service. See [**Customer**](request/Customer.md) attributes. | **Required** |
 | **card** | object | Details of the card used in the transaction. See [**Card**](request/Card.md) attributes. | **Required** |
+| **wallet** | object | Details of the wallet. See [**Wallet**](common/Wallet.md) attributes. | Optional |
 | **transaction** | object | Details of the transaction in the request. See [**Transaction**](request/Transaction.md) attributes. | Optional |
 | **terminal** | object | Details of the terminal. See [**Terminal**](request/Terminal.md) attributes. | Optional |
 | **cardAcceptor** | object | Details of the card acceptor. See [**CardAcceptor**](request/CardAcceptor.md) attributes. | Optional |

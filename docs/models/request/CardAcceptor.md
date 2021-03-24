@@ -10,3 +10,7 @@
 | **name** | string | Identifies the card acceptor that defines the point of the transaction in both local and interchange environments. | Optional |
 | **location** | object | Details of the location of the card acceptor. See [**Location**](Location.md) attributes. | Optional |
 | **acquirerId** | string | Identifies the card acceptor that defines the point of the transaction in both local and interchange environments. Max size of 6 bytes, must be a numeric string. | Optional |
+| **assignedId** | string | Merchant Id assigned by Mastercard. Max size of 6 bytes | Optional |
+| **paymentFacilitatorId** | string | Payment Facilitator Id. Max size of 11 bytes | Optional |
+| **salesOrgId** | string | Independent Sales Organization Id. Max size of 11 bytes | Optional |
+| **subMerchantId** | string | Merchant ID of the sub-merchant. Max size of 15 bytes | Optional |

@@ -23,6 +23,9 @@ All properties for the request object are listed in the [Direct Service Request]
       "type": "C"
     }
   },
+  "wallet": {
+    "id": "101"
+  },
   "transaction": {
     "transactionType": "00",
     "fromAccountType": "20",
@@ -64,6 +67,10 @@ All properties for the request object are listed in the [Direct Service Request]
     "acquirerId": "123456",
     "merchantId": "ID12345",
     "name": "Walmart",
+    "assignedId": "786RGF",
+    "paymentFacilitatorId": "987898",
+    "salesOrgId": "456723",
+    "subMerchantId": "BOA568",
     "location": {
       "city": "O'Fallon",
       "state": "MO",

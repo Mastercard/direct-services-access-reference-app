@@ -34,6 +34,8 @@ paths:
                     expiry: "2023-12"
                     validationCode: "567"
                     sequenceNumber: "891"
+                  wallet:
+                    id: "101"
                   transaction:
                     transactionType: "00"
                     fromAccountType: "20"
@@ -43,6 +45,10 @@ paths:
                     panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
                   cardAcceptor:
                     merchantType: "5499"
+                    assignedId: "786RGF"
+                    paymentFacilitatorId: "987898"
+                    salesOrgId: "456723"
+                    subMerchantId: "BOA568"
                   security:
                     chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
                     universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
@@ -295,6 +301,8 @@ paths:
                     token:
                       transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
                       type: "C"
+                  wallet:
+                    id: "101"
                   transaction:
                     transactionType: "00"
                     fromAccountType: "20"
@@ -334,6 +342,10 @@ paths:
                     acquirerId: "123456"
                     merchantId: "ID12345"
                     name: "Walmart"
+                    assignedId: "786RGF"
+                    paymentFacilitatorId: "987898"
+                    salesOrgId: "456723"
+                    subMerchantId: "BOA568"
                     location:
                       city: "O'Fallon"
                       state: "MO"
@@ -1266,6 +1278,26 @@ components:
           maxLength: 6
           example: "123456"
           description: Identifies the acquiring institution or its agent.
+        assignedId:
+          type: string
+          maxLength: 6
+          example: "786RGF"
+          description: Merchant Id assigned by Mastercard.
+        paymentFacilitatorId:
+          type: string
+          maxLength: 11
+          example: "987898"
+          description: Payment Facilitator Id.
+        salesOrgId:
+          type: string
+          maxLength: 11
+          example: "456723"
+          description: Independent Sales Organization ID.
+        subMerchantId:
+          type: string
+          maxLength: 15
+          example: "BOA568"
+          description: Merchant ID of the sub-merchant.
     SecurityRequest:
       type: object
       description: Details of security related values.
@@ -1380,6 +1412,15 @@ components:
           items:
             $ref: '#/components/schemas/Service'
           description: List of security services performed in previous request.
+    Wallet:
+      type: object
+      description: Details of the wallet.
+      properties:
+        id:
+          type: string
+          example: "103"
+          maxLength: 3
+          description: Wallet Identifier.
     DirectServiceRequest:
       type: object
       description: Direct Service Request
@@ -1399,6 +1440,8 @@ components:
           $ref: '#/components/schemas/Customer'
         card:
           $ref: '#/components/schemas/CardRequest'
+        wallet:
+          $ref: '#/components/schemas/Wallet'
         transaction:
           $ref: '#/components/schemas/TransactionRequest'
         terminal:
@@ -1443,14 +1486,6 @@ components:
           example: "A"
           description: Address Verification Service Response contains the AVS verification response
             code in the Authorization Request Response/0110 message. Possible values - [A, N, R, S, U, W, X, Y, Z, B, C, D, F, G, I, M, P]
-    Wallet:
-      type: object
-      description: Details of the wallet.
-      properties:
-        id:
-          type: string
-          example: "103"
-          description: Wallet Identifier.
     TokenResponse:
       type: object
       description: Details of the tokenized card (for the response).

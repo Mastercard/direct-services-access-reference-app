@@ -18,6 +18,7 @@ import org.openapitools.client.model.Service;
 import org.openapitools.client.model.Terminal;
 import org.openapitools.client.model.TokenRequest;
 import org.openapitools.client.model.TransactionRequest;
+import org.openapitools.client.model.Wallet;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DirectServicesExample {
@@ -61,6 +62,10 @@ public class DirectServicesExample {
     cardRequest.setToken(new TokenRequest().transactionId("fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=").type("C"));
     combinedRequest.card(cardRequest);
 
+    Wallet wallet = new Wallet();
+    wallet.setId("101");
+    combinedRequest.wallet(wallet);
+
     TransactionRequest transactionRequest = getTransactionRequest();
     combinedRequest.setTransaction(transactionRequest);
 
@@ -101,6 +106,11 @@ public class DirectServicesExample {
     cardAcceptor.setTerminalId(ID);
     cardAcceptor.setAcquirerId(ACQUIRER_ID);
     cardAcceptor.setMerchantId(ID);
+    cardAcceptor.setMerchantType("5499");
+    cardAcceptor.setAssignedId("786RGF");
+    cardAcceptor.setPaymentFacilitatorId("987898");
+    cardAcceptor.setSalesOrgId("456723");
+    cardAcceptor.setSubMerchantId("BOA568");
     cardAcceptor.name("Walmart");
     getLocation(cardAcceptor);
     return cardAcceptor;
@@ -150,6 +160,9 @@ public class DirectServicesExample {
     cardRequest.setValidationCode("567");
     cardRequest.setSequenceNumber("891");
     eCommerceRequest.card(cardRequest);
+    Wallet wallet = new Wallet();
+    wallet.setId("101");
+    eCommerceRequest.wallet(wallet);
     TransactionRequest transactionRequest = new TransactionRequest();
     transactionRequest.setTransactionType("00");
     transactionRequest.setFromAccountType("20");
@@ -160,6 +173,10 @@ public class DirectServicesExample {
     eCommerceRequest.setTerminal(terminal);
     CardAcceptor cardAcceptor = new CardAcceptor();
     cardAcceptor.setMerchantType("5499");
+    cardAcceptor.setAssignedId("786RGF");
+    cardAcceptor.setPaymentFacilitatorId("987898");
+    cardAcceptor.setSalesOrgId("456723");
+    cardAcceptor.setSubMerchantId("BOA568");
     eCommerceRequest.setCardAcceptor(cardAcceptor);
     SecurityRequest securityRequest = new SecurityRequest();
     securityRequest.setUniversalCardholderAuthenticationField(CHIP_DATA);

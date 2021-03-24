@@ -30,7 +30,11 @@ The sample below provides the specific fields required by the e-commerce use cas
     "panEntryMode": "CONTACTLESS_MAGNETIC_STRIPE"
   },
   "cardAcceptor": {
-    "merchantType": "5499"
+    "merchantType": "5499",
+    "assignedId": "786RGF",
+    "paymentFacilitatorId": "987898",
+    "salesOrgId": "456723",
+    "subMerchantId": "BOA568"
   },
   "security": {
     "chipData": "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw==",
