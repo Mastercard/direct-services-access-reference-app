@@ -1,4 +1,4 @@
-# ErrorResponse
+# ErrorList
 
 ## Properties <a name="properties"></a>
 

@@ -5,19 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.openapitools.client.model.AuthenticationRequest;
+import org.openapitools.client.model.AdditionalAmountsRequestDetails;
+import org.openapitools.client.model.AlmRequestDetails;
+import org.openapitools.client.model.AuthenticationRequestDetails;
 import org.openapitools.client.model.CardAcceptor;
-import org.openapitools.client.model.CardRequest;
+import org.openapitools.client.model.CardRequestDetails;
 import org.openapitools.client.model.Customer;
-import org.openapitools.client.model.DigitalPaymentRequest;
-import org.openapitools.client.model.DirectServiceRequest;
+import org.openapitools.client.model.DigitalPaymentRequestDetails;
+import org.openapitools.client.model.DirectServiceRequestDetails;
 import org.openapitools.client.model.Location;
 import org.openapitools.client.model.OriginalAuthorization;
-import org.openapitools.client.model.SecurityRequest;
+import org.openapitools.client.model.SecurityRequestDetails;
 import org.openapitools.client.model.Service;
 import org.openapitools.client.model.Terminal;
-import org.openapitools.client.model.TokenRequest;
-import org.openapitools.client.model.TransactionRequest;
+import org.openapitools.client.model.TokenRequestDetails;
+import org.openapitools.client.model.TransactionRequestDetails;
 import org.openapitools.client.model.Wallet;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,21 +34,24 @@ public class DirectServicesExample {
   public static final String CUSTOMER_ID = "567899";
   public static final String TRACK_DATA = "9456963027849254982D8739279";
   public static final String PIN_BLOCK_FORMAT = "ISO_FORMAT_0";
-  public static final String AUTHORIZATION_CDOE = "123456";
+  public static final String AUTHORIZATION_CODE = "123456";
   public static final String ACQUIRER_ID = "123456";
+  public static final Integer PURPOSE_EXTENDED = 2;
 
   /**
-   * Creates an instance of DirectServiceRequest for a combined request with multiple use cases (in this case E-Commerce and Fraud Services Original use cases) and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for a combined request with multiple use
+   * cases (in this case E-Commerce and Fraud Services Original use cases) and sets all required
+   * and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildAllFieldsRequest() {
-    DirectServiceRequest combinedRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildAllFieldsRequest() {
+    DirectServiceRequestDetails combinedRequest = new DirectServiceRequestDetails();
     combinedRequest.setServiceType(ORIGINAL_SERVICE_TYPE);
     combinedRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
 
@@ -54,19 +59,21 @@ public class DirectServicesExample {
     customer.setId(CUSTOMER_ID);
     combinedRequest.setCustomer(customer);
 
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
     cardRequest.setSequenceNumber("891");
     cardRequest.setCountry("840");
-    cardRequest.setToken(new TokenRequest().transactionId("fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=").type("C"));
+    cardRequest.setToken(
+        new TokenRequestDetails().transactionId("fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=").type("C"));
+    cardRequest.setAlm(getAlmRequestDetails());
     combinedRequest.card(cardRequest);
 
     Wallet wallet = new Wallet();
     wallet.setId("101");
     combinedRequest.wallet(wallet);
 
-    TransactionRequest transactionRequest = getTransactionRequest();
+    TransactionRequestDetails transactionRequest = getTransactionRequest();
     combinedRequest.setTransaction(transactionRequest);
 
     combinedRequest.setTerminal(getTerminal());
@@ -74,7 +81,7 @@ public class DirectServicesExample {
     CardAcceptor cardAcceptor = getCardAcceptor();
     combinedRequest.setCardAcceptor(cardAcceptor);
 
-    SecurityRequest securityRequest = new SecurityRequest();
+    SecurityRequestDetails securityRequest = new SecurityRequestDetails();
     securityRequest.setMagStripeTrack1Data(TRACK_DATA);
     securityRequest.setMagStripeTrack2Data(TRACK_DATA);
     securityRequest.setUniversalCardholderAuthenticationField(CHIP_DATA);
@@ -82,7 +89,7 @@ public class DirectServicesExample {
     securityRequest.setPinKeyIndex(98);
     combinedRequest.setSecurity(securityRequest);
 
-    AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    AuthenticationRequestDetails authenticationRequest = new AuthenticationRequestDetails();
     authenticationRequest.setSecurityProtocol(9);
     authenticationRequest.setCardholderAuthentication(0);
     authenticationRequest.setUcafCollectionIndicator(0);
@@ -116,8 +123,8 @@ public class DirectServicesExample {
     return cardAcceptor;
   }
 
-  private static TransactionRequest getTransactionRequest() {
-    TransactionRequest transactionRequest = new TransactionRequest();
+  private static TransactionRequestDetails getTransactionRequest() {
+    TransactionRequestDetails transactionRequest = new TransactionRequestDetails();
     transactionRequest.setTransactionType("00");
     transactionRequest.setFromAccountType("20");
     transactionRequest.setToAccountType("20");
@@ -135,38 +142,64 @@ public class DirectServicesExample {
     transactionRequest.setAdviceReasonCode("000");
     transactionRequest.setPromotionCode("GREECE");
     transactionRequest.setCardholderVerificationMethod("P");
+    transactionRequest.setAdditionalAmounts(getAdditionalAmounts());
+    transactionRequest.setPurposeExtended(PURPOSE_EXTENDED);
     return transactionRequest;
   }
 
+  private static AdditionalAmountsRequestDetails getAdditionalAmounts() {
+    AdditionalAmountsRequestDetails additionalAmounts = new AdditionalAmountsRequestDetails();
+    additionalAmounts.setAccountType(0);
+    additionalAmounts.setAmountType(AdditionalAmountsRequestDetails.AmountTypeEnum._57);
+    additionalAmounts.setCurrencyCode(840);
+    additionalAmounts.setAmountIndicator("C");
+    additionalAmounts.setAmount(50000);
+    return additionalAmounts;
+  }
+
+  private static AlmRequestDetails getAlmRequestDetails() {
+    AlmRequestDetails almRequestDetails = new AlmRequestDetails();
+    almRequestDetails.setCredentialExclusionIndicator(
+        AlmRequestDetails.CredentialExclusionIndicatorEnum.DEBIT);
+    almRequestDetails.setAccountNumberIndicator("1");
+    almRequestDetails.setAccountNumber(ACCOUNT_NUMBER);
+    almRequestDetails.setAccountNumberExpiry("2028-12-31");
+    return almRequestDetails;
+  }
+
   /**
-   * Creates an instance of DirectServiceRequest for Ecommerce request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Ecommerce request and sets all required
+   * and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildEcommerceRequest() {
-    DirectServiceRequest eCommerceRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildEcommerceRequest() {
+    DirectServiceRequestDetails eCommerceRequest = new DirectServiceRequestDetails();
     eCommerceRequest.setServiceType(ORIGINAL_SERVICE_TYPE);
     eCommerceRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     eCommerceRequest.setCustomer(customer);
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.accountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
     cardRequest.setSequenceNumber("891");
+    cardRequest.setAlm(getAlmRequestDetails());
     eCommerceRequest.card(cardRequest);
     Wallet wallet = new Wallet();
     wallet.setId("101");
     eCommerceRequest.wallet(wallet);
-    TransactionRequest transactionRequest = new TransactionRequest();
+    TransactionRequestDetails transactionRequest = new TransactionRequestDetails();
     transactionRequest.setTransactionType("00");
     transactionRequest.setFromAccountType("20");
     transactionRequest.setToAccountType("20");
+    transactionRequest.setAdditionalAmounts(getAdditionalAmounts());
+    transactionRequest.setPurposeExtended(PURPOSE_EXTENDED);
     eCommerceRequest.setTransaction(transactionRequest);
     Terminal terminal = new Terminal();
     terminal.setPanEntryMode(PAN_ENTRY_MODE);
@@ -178,15 +211,15 @@ public class DirectServicesExample {
     cardAcceptor.setSalesOrgId("456723");
     cardAcceptor.setSubMerchantId("BOA568");
     eCommerceRequest.setCardAcceptor(cardAcceptor);
-    SecurityRequest securityRequest = new SecurityRequest();
+    SecurityRequestDetails securityRequest = new SecurityRequestDetails();
     securityRequest.setUniversalCardholderAuthenticationField(CHIP_DATA);
     securityRequest.setPinBlockFormat(PIN_BLOCK_FORMAT);
     securityRequest.setPinKeyIndex(98);
-    DigitalPaymentRequest digitalPaymentRequest = new DigitalPaymentRequest();
+    DigitalPaymentRequestDetails digitalPaymentRequest = new DigitalPaymentRequestDetails();
     securityRequest.setDigitalPayment(digitalPaymentRequest);
     eCommerceRequest.setSecurity(securityRequest);
 
-    AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    AuthenticationRequestDetails authenticationRequest = new AuthenticationRequestDetails();
     authenticationRequest.setSecurityProtocol(9);
     authenticationRequest.setCardholderAuthentication(0);
     authenticationRequest.setUcafCollectionIndicator(0);
@@ -196,53 +229,60 @@ public class DirectServicesExample {
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for InPerson request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for InPerson request and sets all required
+   * and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildInPersonRequest() {
-    DirectServiceRequest inPersonRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildInPersonRequest() {
+    DirectServiceRequestDetails inPersonRequest = new DirectServiceRequestDetails();
     inPersonRequest.setServiceType(ORIGINAL_SERVICE_TYPE);
     inPersonRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     inPersonRequest.setCustomer(customer);
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setSequenceNumber("891");
+    cardRequest.setAlm(getAlmRequestDetails());
     inPersonRequest.card(cardRequest);
     inPersonRequest.setTerminal(new Terminal().panEntryMode(PAN_ENTRY_MODE));
     inPersonRequest.setCardAcceptor(new CardAcceptor().merchantType("5499"));
-    inPersonRequest.setSecurity(new SecurityRequest().magStripeTrack1Data(TRACK_DATA).magStripeTrack2Data(TRACK_DATA));
+    inPersonRequest.setSecurity(
+        new SecurityRequestDetails().magStripeTrack1Data(TRACK_DATA).magStripeTrack2Data(TRACK_DATA));
     return inPersonRequest;
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for Reversal request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Reversal request and sets all required
+   * and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildReversalRequest() {
-    DirectServiceRequest reversalRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildReversalRequest() {
+    DirectServiceRequestDetails reversalRequest = new DirectServiceRequestDetails();
     reversalRequest.setServiceType("REVERSAL");
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     reversalRequest.setCustomer(customer);
-    CardRequest card = new CardRequest();
+    CardRequestDetails card = new CardRequestDetails();
     card.setAccountNumber(ACCOUNT_NUMBER);
     reversalRequest.setCard(card);
-    TransactionRequest transaction = new TransactionRequest();
+    TransactionRequestDetails transaction = new TransactionRequestDetails();
     transaction.setAmount(123L);
+    transaction.setCurrency("840");
+    transaction.setAdditionalAmounts(getAdditionalAmounts());
+    transaction.setPurposeExtended(PURPOSE_EXTENDED);
     reversalRequest.setTransaction(transaction);
     OriginalAuthorization authorization = new OriginalAuthorization();
     authorization.setResponseCode("00");
@@ -251,29 +291,33 @@ public class DirectServicesExample {
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for Acquirer Advice request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Acquirer Advice request and sets all
+   * required and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildAcquirerAdviceRequest() {
-    DirectServiceRequest acquirerAdviceRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildAcquirerAdviceRequest() {
+    DirectServiceRequestDetails acquirerAdviceRequest = new DirectServiceRequestDetails();
     acquirerAdviceRequest.setServiceType(ADVICE_SERVICE_TYPE);
     acquirerAdviceRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     acquirerAdviceRequest.setCustomer(customer);
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
+    cardRequest.setAlm(getAlmRequestDetails());
     acquirerAdviceRequest.card(cardRequest);
-    TransactionRequest transactionRequest = new TransactionRequest();
+    TransactionRequestDetails transactionRequest = new TransactionRequestDetails();
     transactionRequest.setAmount(0000000050000L);
     transactionRequest.setCurrency("840");
     transactionRequest.setAdviceReasonCode("190");
+    transactionRequest.setAdditionalAmounts(getAdditionalAmounts());
+    transactionRequest.setPurposeExtended(PURPOSE_EXTENDED);
     acquirerAdviceRequest.setTransaction(transactionRequest);
     OriginalAuthorization original = new OriginalAuthorization();
     original.setResponseCode("00");
@@ -282,31 +326,33 @@ public class DirectServicesExample {
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for Transaction History Advice request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Transaction History Advice request and
+   * sets all required and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildTransactionHistoryAdviceRequest() {
-    DirectServiceRequest transactionHistoryAdviceRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildTransactionHistoryAdviceRequest() {
+    DirectServiceRequestDetails transactionHistoryAdviceRequest = new DirectServiceRequestDetails();
     transactionHistoryAdviceRequest.setServiceType(ADVICE_SERVICE_TYPE);
     transactionHistoryAdviceRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     transactionHistoryAdviceRequest.setCustomer(customer);
-    TokenRequest tokenRequest = new TokenRequest();
+    TokenRequestDetails tokenRequest = new TokenRequestDetails();
     tokenRequest.transactionId("fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=");
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.accountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
     cardRequest.setCountry("840");
-    cardRequest.setToken(new TokenRequest().type("C"));
+    cardRequest.setToken(new TokenRequestDetails().type("C"));
+    cardRequest.setAlm(getAlmRequestDetails());
     transactionHistoryAdviceRequest.setCard(cardRequest);
-    TransactionRequest transactionRequest = new TransactionRequest();
+    TransactionRequestDetails transactionRequest = new TransactionRequestDetails();
     transactionRequest.setTransactionType("00");
     transactionRequest.setFromAccountType("00");
     transactionRequest.setToAccountType("00");
@@ -315,6 +361,8 @@ public class DirectServicesExample {
     transactionRequest.setAmount(000000050000L);
     transactionRequest.setCurrency("840");
     transactionRequest.setAdviceReasonCode("201");
+    transactionRequest.setAdditionalAmounts(getAdditionalAmounts());
+    transactionRequest.setPurposeExtended(PURPOSE_EXTENDED);
     transactionHistoryAdviceRequest.setTransaction(transactionRequest);
     Terminal terminal = new Terminal();
     terminal.setPanEntryMode(PAN_ENTRY_MODE);
@@ -325,13 +373,13 @@ public class DirectServicesExample {
     transactionHistoryAdviceRequest.setCardAcceptor(cardAcceptor);
     OriginalAuthorization originalRequest = new OriginalAuthorization();
     originalRequest.setMastercardReferenceId("123456789");
-    TransactionRequest originalTransactionRequest = new TransactionRequest();
+    TransactionRequestDetails originalTransactionRequest = new TransactionRequestDetails();
     originalTransactionRequest.setTransactionType("00");
     originalRequest.setTransaction(originalTransactionRequest);
     originalRequest.setResponseCode("00");
-    originalRequest.setAuthorizationCode(AUTHORIZATION_CDOE);
+    originalRequest.setAuthorizationCode(AUTHORIZATION_CODE);
     originalRequest.setMessageType("0110");
-    List<Service> serviceList = new ArrayList();
+    List<Service> serviceList = new ArrayList<>();
     Service panService = new Service();
     panService.setCode("50");
     panService.setResult("C");
@@ -346,44 +394,46 @@ public class DirectServicesExample {
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for Fraud Services Original request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Fraud Services Original request and sets
+   * all required and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildFraudServicesOriginalRequest() {
-    DirectServiceRequest fraudServicesOriginalRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildFraudServicesOriginalRequest() {
+    DirectServiceRequestDetails fraudServicesOriginalRequest = new DirectServiceRequestDetails();
     fraudServicesOriginalRequest.setServiceType(ORIGINAL_SERVICE_TYPE);
     fraudServicesOriginalRequest.setClientTransactionId(CLIENT_TRANSACTION_ID);
     Customer customer = new Customer();
     customer.setId(CUSTOMER_ID);
     fraudServicesOriginalRequest.setCustomer(customer);
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
     cardRequest.setSequenceNumber("891");
     cardRequest.setCountry("840");
-    cardRequest.setToken(new TokenRequest().type("C"));
+    cardRequest.setToken(new TokenRequestDetails().type("C"));
+    cardRequest.setAlm(getAlmRequestDetails());
     fraudServicesOriginalRequest.card(cardRequest);
-    TransactionRequest transactionRequest = getTransactionRequest();
+    TransactionRequestDetails transactionRequest = getTransactionRequest();
     fraudServicesOriginalRequest.setTransaction(transactionRequest);
     Terminal terminal = getTerminal();
     fraudServicesOriginalRequest.setTerminal(terminal);
     CardAcceptor cardAcceptor = getCardAcceptor();
     fraudServicesOriginalRequest.setCardAcceptor(cardAcceptor);
 
-    SecurityRequest securityRequest = new SecurityRequest();
+    SecurityRequestDetails securityRequest = new SecurityRequestDetails();
     securityRequest.setMagStripeTrack1Data(TRACK_DATA);
     securityRequest.setMagStripeTrack2Data(TRACK_DATA);
     securityRequest.setUniversalCardholderAuthenticationField(CHIP_DATA);
     securityRequest.setPinBlockFormat(PIN_BLOCK_FORMAT);
     securityRequest.setPinKeyIndex(98);
     fraudServicesOriginalRequest.setSecurity(securityRequest);
-    AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    AuthenticationRequestDetails authenticationRequest = new AuthenticationRequestDetails();
     authenticationRequest.setSecurityProtocol(9);
     authenticationRequest.setCardholderAuthentication(0);
     authenticationRequest.setUcafCollectionIndicator(0);
@@ -420,17 +470,18 @@ public class DirectServicesExample {
   }
 
   /**
-   * Creates an instance of DirectServiceRequest for Fraud Services Advice request and sets all required and (available) optional information of request
-   * required:
+   * Creates an instance of DirectServiceRequestDetails for Fraud Services Advice request and sets
+   * all required and (available) optional information of request required:
    * - serviceType
    * - accountNumber
    * - customer.id
    *
-   * @return An instance of DirectServiceRequest
-   * @implNote The required field values used in this tutorial are dummy values and for demo purposes only, please change to valid values before running this application.
+   * @return An instance of DirectServiceRequestDetails
+   * @implNote The required field values used in this tutorial are dummy values and for demo
+   *     purposes only, please change to valid values before running this application.
    */
-  public static DirectServiceRequest buildFraudServicesAdviceRequest() {
-    DirectServiceRequest fraudServicesAdviceRequest = new DirectServiceRequest();
+  public static DirectServiceRequestDetails buildFraudServicesAdviceRequest() {
+    DirectServiceRequestDetails fraudServicesAdviceRequest = new DirectServiceRequestDetails();
     fraudServicesAdviceRequest.setServiceType(ADVICE_SERVICE_TYPE);
     fraudServicesAdviceRequest.setClientTransactionId("03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU");
 
@@ -438,14 +489,15 @@ public class DirectServicesExample {
     customer.setId(CUSTOMER_ID);
     fraudServicesAdviceRequest.setCustomer(customer);
 
-    CardRequest cardRequest = new CardRequest();
+    CardRequestDetails cardRequest = new CardRequestDetails();
     cardRequest.setAccountNumber(ACCOUNT_NUMBER);
     cardRequest.setValidationCode("567");
     cardRequest.setCountry("840");
-    cardRequest.setToken(new TokenRequest().type("C"));
+    cardRequest.setToken(new TokenRequestDetails().type("C"));
+    cardRequest.setAlm(getAlmRequestDetails());
     fraudServicesAdviceRequest.card(cardRequest);
 
-    TransactionRequest transactionRequest = new TransactionRequest();
+    TransactionRequestDetails transactionRequest = new TransactionRequestDetails();
     transactionRequest.setTransactionType("00");
     transactionRequest.setFromAccountType("00");
     transactionRequest.setToAccountType("00");
@@ -459,6 +511,8 @@ public class DirectServicesExample {
     transactionRequest.setAdviceReasonCode("201");
     transactionRequest.setPromotionCode("GREECE");
     transactionRequest.setCardholderVerificationMethod("P");
+    transactionRequest.setAdditionalAmounts(getAdditionalAmounts());
+    transactionRequest.setPurposeExtended(PURPOSE_EXTENDED);
     fraudServicesAdviceRequest.setTransaction(transactionRequest);
 
     fraudServicesAdviceRequest.setTerminal(getTerminal());
@@ -472,11 +526,11 @@ public class DirectServicesExample {
     getLocation(cardAcceptor);
     fraudServicesAdviceRequest.setCardAcceptor(cardAcceptor);
 
-    SecurityRequest securityRequest = new SecurityRequest();
+    SecurityRequestDetails securityRequest = new SecurityRequestDetails();
     securityRequest.setMagStripeTrack2Data(TRACK_DATA);
     fraudServicesAdviceRequest.setSecurity(securityRequest);
 
-    AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    AuthenticationRequestDetails authenticationRequest = new AuthenticationRequestDetails();
     authenticationRequest.setCvcResponseCode("M");
     fraudServicesAdviceRequest.authentication(authenticationRequest);
 

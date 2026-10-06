@@ -17,10 +17,7 @@ The sample below provides the specific fields required by the in-person use case
   "card": {
     "accountNumber": "5400000000000000",
     "expiry": "2023-12",
-    "sequenceNumber": "891"
-  },
-  "transaction": {
-    "amount": 50000
+    "sequenceNumber": 891
   },
   "terminal": {
     "panEntryMode": "CONTACTLESS_MAGNETIC_STRIPE"
@@ -29,9 +26,7 @@ The sample below provides the specific fields required by the in-person use case
     "merchantType": "5499"
   },
   "security": {
-    "chipData": "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw==",
-    "magStripeTrack1Data": "94569790763027849890254982D87398989279",
-    "magStripeTrack2Data": "9456963027849254982D8739279"
+    "magStripeTrack2Data": "5155443800189981D22072010000525700004"
   }
 }
 ```

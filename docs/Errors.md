@@ -4,7 +4,7 @@
 
 | Name | Type | Description |
 | :--- | :--- | :---------- |
-| **errors** | [**ErrorResponse**](ErrorResponse.md) | Contains object of error list |
+| **errors** | [**ErrorList**](ErrorList.md) | Contains object of error list |
 
 ## Sample JSON
 
