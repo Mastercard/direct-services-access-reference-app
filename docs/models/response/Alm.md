@@ -1,0 +1,11 @@
+# Alm
+
+## Properties <a name="properties"></a>
+
+| Name | Type | Description                                                                                                                                                                                                                                     | Notes |
+| :--- | :--- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :---- |
+| **serviceCode**  | string | Represents the Account Level Management service or combination of ALM services for which the PAN is actively registered                                                                                                                         | Optional |
+| **productCode**  | string | Indicates the licensed graduated product code or the registered product code for those transactions identified with a PAN registered and qualifying for PGP or Consumer Product Monitoring Service (CAN only), or a combination of ALM Services | Optional |
+| **productClass** | string | Indicates the Product Class Override for the applicable ALM Service                                                                                                                                                                             | Optional |
+| **rateType**     | string | Indicates the Rate Type number for the applicable ALM Service                                                                                                                                                                                   | Optional |
+| **mo**           | object | Details of the Mastercard One Credential associated with the card product. See [**Mo**](Mo.md) attributes.                                                                                                                                           | Optional     |

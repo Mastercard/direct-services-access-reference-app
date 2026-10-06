@@ -1,1004 +1,35 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   version: 1.0.0
-  title: Mastercard Direct Services Access API
-  description: The Mastercard Direct Services Access API provides the ability to provide certain Mastercard value-added services to the customers of issuers, third party processors, or payment networks that do not switch their transaction activity on the Mastercard Network.
+  title: Mastercard Direct Services API
+  description: Mastercard Direct Services provides customers to access a wide range of Mastercard’s value-added services.
   contact:
-    name: Network of the Future - Business Operations - Production Support
-    email: NoF-BizOPS-ProdSupport@mastercard.com
+    name: API Support
+    email: apisupport@mastercard.com
+    url: https://developer.mastercard.com/support
 servers:
-  - url: https://sandbox.api.mastercard.com/direct-service-api/
+  - url: 'https://api.mastercard.com/direct-service-api'
+    description: Production server
+  - url: 'https://sandbox.api.mastercard.com/direct-service-api'
+    description: Sandbox server
+tags:
+  - name: Direct Services
+    description: The Mastercard Direct Services API provides issuers, third party processors, and payment facilitators the ability to consume Mastercard’s value-added services.
 paths:
   "/services":
     post:
       tags:
         - Direct Services
-      summary: The Mastercard Direct Services Access API provides issuers, third party processors, and payment networks the ability to perform MDES Services.
+      operationId: directServiceApi
+      summary: The Mastercard Direct Services API provides issuers, third party processors, and payment facilitators the ability to access a wide range of Mastercard’s value-added services.
+      description: "Contains the details of the Direct Service request."
       requestBody:
-        description: "Contains the details of the Direct Service request."
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DirectServiceRequest'
-            examples:
-              E-Commerce:
-                description: An E-Commerce request performs an MDES detokenization and crypto validation service for cardholders using digital devices for E-commerce purchases.
-                value:
-                  serviceType: "ORIGINAL"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    expiry: "2023-12"
-                    validationCode: "567"
-                    sequenceNumber: "891"
-                  wallet:
-                    id: "101"
-                  transaction:
-                    transactionType: "00"
-                    fromAccountType: "20"
-                    toAccountType: "20"
-                    amount: 50000
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                  cardAcceptor:
-                    merchantType: "5499"
-                    assignedId: "786RGF"
-                    paymentFacilitatorId: "987898"
-                    salesOrgId: "456723"
-                    subMerchantId: "BOA568"
-                  security:
-                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                    pinBlock: "AQJeCgULCwc="
-                    pinBlockFormat: "ISO_FORMAT_0"
-                    pinKeyIndex: 98
-                    digitalPayment:
-                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
-                  authentication:
-                    securityProtocol: 9
-                    cardholderAuthentication: 0
-                    ucafCollectionIndicator: 0
-              In-Person:
-                description: An In-Person request performs an MDES detokenization and crypto validation service for cardholders using digital devices for in-store purchases via Contactless and Dynamic Magnetic Stripe payment methods.
-                value:
-                  serviceType: "ORIGINAL"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    expiry: "2023-12"
-                    sequenceNumber: "891"
-                  transaction:
-                    amount: 50000
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                  cardAcceptor:
-                    merchantType: "5499"
-                  security:
-                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                    magStripeTrack2Data: "9456963027849254982D8739279"
-              Reversal:
-                description: A Reversal request supports the reversal of an original MDES transaction purchase made via E-commerce or In-Person DSA API request.
-                value:
-                  serviceType: "REVERSAL"
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                  transaction:
-                    amount: 123
-                  original:
-                    responseCode: "00"
-              Acquirer-Advice:
-                description: An Acquirer Advice request supports acquirer-generated advice to Mastercard when an MDES purchase transaction is declined by an Issuer.
-                value:
-                  serviceType: "ADVICE"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                  transaction:
-                    amount: "0000000050000"
-                    currency: "840"
-                    adviceReasonCode: "190"
-                  original:
-                    responseCode: "00"
-              Transaction-History-Advice:
-                description: A Transaction History Advice request allows a customer to provide transaction advice for the Mastercard Transaction Details Service (TDS) after transaction processing. The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification, and delivery of transaction details.
-                value:
-                  serviceType: "ADVICE"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    sequenceNumber: "891"
-                    token:
-                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                  transaction:
-                    transactionType: "00"
-                    fromAccountType: "20"
-                    toAccountType: "20"
-                    amount: "0000000050000"
-                    currency: "840"
-                    submittedOn: "2019-04-12T10:28:04.651"
-                    adviceReasonCode: "201"
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                  cardAcceptor:
-                    name: "Walmart"
-                    location:
-                      city: "O'Fallon"
-                      state: "MO"
-                      country: "USA"
-                  original:
-                    mastercardReferenceId: "123456789"
-                    transaction:
-                      transactionType: "00"
-                    authorizationCode: "123456"
-                    responseCode: "00"
-                    messageType: "0110"
-                    services:
-                      - code: "50"
-                        result: "C"
-                      - code: "51"
-                        result: "V"
-                        issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                        atcInfo: "0008800042G"
-              Fraud-Services-Original:
-                description: A Fraud Services Original request supports the Mastercard Safety and Security Services “Fraud Service Safety Net, Fraud Rules Manage, Decision Intelligence, and Consumer Controls” and provides fraud scoring.
-                value:
-                  serviceType: "ORIGINAL"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    expiry: "2023-12"
-                    validationCode: "567"
-                    sequenceNumber: "891"
-                    country: "840"
-                  transaction:
-                    transactionType: "00"
-                    fromAccountType: "20"
-                    toAccountType: "20"
-                    purpose: 0
-                    typeIdentifier: "C01"
-                    amount: "000000050000"
-                    currency: "840"
-                    submittedOn: "2019-04-12T10:28:04.651"
-                    settlementAmount: "000000050000"
-                    settlementCurrency: "840"
-                    billingAmount: "000000050000"
-                    billingCurrency: "840"
-                    billingConversionRate: "00050000"
-                    settlementDate: "2019-04-12"
-                    category: "T"
-                    adviceReasonCode: "000"
-                    promotionCode: "GREECE"
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                    pinEntryMode: "0"
-                    attendance: 0
-                    location: 0
-                    cardholderPresence: 0
-                    cardPresence: 0
-                    cardCaptureCapabilities: 0
-                    transactionSecurity: 0
-                    cardholderActivated: 4
-                    cardDataInputCapability: 2
-                    authorizationLifeCycle: 0
-                    country: "840"
-                    postalCode: "63026"
-                  cardAcceptor:
-                    merchantType: "5499"
-                    terminalId: "ID12345"
-                    acquirerId: "123456"
-                    merchantId: "ID12345"
-                    name: "Walmart"
-                    location:
-                      city: "O'Fallon"
-                      state: "MO"
-                      country: "USA"
-                  security:
-                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                    magStripeTrack2Data: "9456963027849254982D8739279"
-                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                    pinBlock: "AQJeCgULCwc="
-                    pinBlockFormat: "ISO_FORMAT_0"
-                    pinKeyIndex: 98
-                    digitalPayment:
-                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
-                  authentication:
-                    securityProtocol: 9
-                    cardholderAuthentication: 0
-                    ucafCollectionIndicator: 0
-                    avsResponseCode: "P"
-                    cvcResponseCode: "M"
-              Fraud-Services-Advice:
-                description: A Fraud Services Advice request supports customer-generated advice to Mastercard when an original transaction is declined by an Issuer.
-                value:
-                  serviceType: "ADVICE"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    validationCode: "567"
-                    country: "840"
-                    token:
-                      type: "C"
-                  transaction:
-                    transactionType: "00"
-                    fromAccountType: "00"
-                    toAccountType: "00"
-                    purpose: 0
-                    typeIdentifier: "C01"
-                    amount: 50000
-                    currency: "840"
-                    settlementAmount: 50000
-                    billingAmount: 50000
-                    category: "T"
-                    adviceReasonCode: "201"
-                    promotionCode: "GREECE"
-                    cardholderVerificationMethod: "P"
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                    pinEntryMode: "0"
-                    attendance: 0
-                    location: 0
-                    cardholderPresence: 0
-                    cardPresence: 0
-                    cardCaptureCapabilities: 0
-                    transactionSecurity: 0
-                    cardholderActivated: 4
-                    cardDataInputCapability: 2
-                    authorizationLifeCycle: 0
-                    country: "840"
-                    postalCode: "63026"
-                  cardAcceptor:
-                    merchantType: "5499"
-                    terminalId: "ID12345"
-                    acquirerId: "123456"
-                    merchantId: "ID12345"
-                    name: "Walmart"
-                    location:
-                      city: "O'Fallon"
-                      state: "MO"
-                      country: "USA"
-                  security:
-                    magStripeTrack2Data: "9456963027849254982D8739279"
-                  authentication:
-                    cvcResponseCode: "M"
-                  original:
-                    responseCode: "00"
-                    mastercardReferenceId: "123456789"
-                    securityServices:
-                      - code: "18"
-                        result: "C"
-                      - code: "18"
-                        result: "U"
-              Combined Request:
-                description: A Sample DirectService request
-                value:
-                  serviceType: "ORIGINAL"
-                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                  customer:
-                    id: "567899"
-                  card:
-                    accountNumber: "5400000000000000"
-                    expiry: "2023-12"
-                    validationCode: "567"
-                    sequenceNumber: "891"
-                    country: "840"
-                    token:
-                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                      type: "C"
-                  wallet:
-                    id: "101"
-                  transaction:
-                    transactionType: "00"
-                    fromAccountType: "20"
-                    toAccountType: "20"
-                    purpose: 0
-                    typeIdentifier: "C01"
-                    amount: "000000050000"
-                    currency: "840"
-                    settlementAmount: "000000050000"
-                    settlementCurrency: "840"
-                    billingAmount: "000000050000"
-                    billingCurrency: "840"
-                    submittedOn: "2019-04-12T10:28:04.651"
-                    billingConversionRate: "00050000"
-                    settlementDate: "2019-04-12"
-                    category: "T"
-                    adviceReasonCode: "000"
-                    promotionCode: "GREECE"
-                    cardholderVerificationMethod: "P"
-                  terminal:
-                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                    pinEntryMode: "0"
-                    attendance: 0
-                    location: 0
-                    cardholderPresence: 0
-                    cardPresence: 0
-                    cardCaptureCapabilities: 0
-                    transactionSecurity: 0
-                    cardholderActivated: 4
-                    cardDataInputCapability: 2
-                    authorizationLifeCycle: 0
-                    country: "840"
-                    postalCode: "63026"
-                  cardAcceptor:
-                    merchantType: "5499"
-                    terminalId: "ID12345"
-                    acquirerId: "123456"
-                    merchantId: "ID12345"
-                    name: "Walmart"
-                    assignedId: "786RGF"
-                    paymentFacilitatorId: "987898"
-                    salesOrgId: "456723"
-                    subMerchantId: "BOA568"
-                    location:
-                      city: "O'Fallon"
-                      state: "MO"
-                      country: "USA"
-                  security:
-                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                    magStripeTrack2Data: "9456963027849254982D8739279"
-                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                    pinBlock: "AQJeCgULCwc="
-                    pinBlockFormat: "ISO_FORMAT_0"
-                    pinKeyIndex: 98
-                  authentication:
-                    securityProtocol: 9
-                    cardholderAuthentication: 0
-                    ucafCollectionIndicator: 0
-                    avsResponseCode: "P"
-                    cvcResponseCode: "M"
-                  original:
-                    mastercardReferenceId: "123456789"
-                    transaction:
-                      transactionType: "00"
-                      fromAccountType: "00"
-                      toAccountType: "00"
-                      purpose: 0
-                      typeIdentifier: "C01"
-                      amount: 50000
-                      currency: "840"
-                      settlementAmount: 50000
-                      settlementCurrency: "840"
-                      billingAmount: 50000
-                      billingCurrency: "840"
-                      submittedOn: "2019-04-12T10:28:04.651"
-                      billingConversionRate: "00050000"
-                      settlementDate: "2019-04-12"
-                      category: "T"
-                      adviceReasonCode: "201"
-                    authorizationCode: "123456"
-                    responseCode: "00"
-                    messageType: "0110"
-                    services:
-                      - code: "50"
-                        result: "C"
-                      - code: "51"
-                        result: "V"
-                        issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                        atcInfo: "0008800042G"
-                    securityServices:
-                      - code: "18"
-                        result: "C"
-                      - code: "18"
-                        result: "U"
+        $ref: '#/components/requestBodies/DirectService'
       responses:
         '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DirectServiceResponse'
-              examples:
-                E-Commerce:
-                  description: MDES detokenization and crypto validation service for cardholders using digital device for E-commerce purchase
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      transaction:
-                        category: "T"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-01"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "123456"
-                        paymentAccountReference: "11111222223333344444555556666"
-                        pinServiceCode: "PIN_VERIFIED"
-                        cvcResponseCode: "M"
-                      wallet:
-                        id: "103"
-                      services:
-                        - code: "50"
-                          result: "C"
-                        - code: "62"
-                          result: "V"
-                          issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                          atcInfo: "0008800042G"
-                          timeValidationInfo: "000042310004201"
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                      security:
-                        pinBlock: "AQJeCgULCwc="
-                        digitalPayment:
-                          merchantId: "d3d3Lm1hY3lzLmNvbQ=="
-                    request:
-                      serviceType: "ORIGINAL"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-12"
-                        validationCode: "567"
-                        sequenceNumber: "891"
-                      transaction:
-                        transactionType: "00"
-                        fromAccountType: "20"
-                        toAccountType: "20"
-                        amount: 50000
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                      cardAcceptor:
-                        merchantType: "5499"
-                      security:
-                        chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                        universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                        pinBlock: "AQJeCgULCwc="
-                        pinBlockFormat: "ISO_FORMAT_0"
-                        pinKeyIndex: 98
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                In-Person:
-                  description: MDES detokenization and crypto validation service for cardholders using digital device for in-store purchase via Contactless and Dynamic Magnetic Stripe
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-01"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "123456"
-                        paymentAccountReference: "11111222223333344444555556666"
-                        pinServiceCode: "PIN_VERIFIED"
-                      wallet:
-                        id: "103"
-                      services:
-                        - code: "50"
-                          result: "C"
-                        - code: "62"
-                          result: "V"
-                          issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                          atcInfo: "0008800042G"
-                          timeValidationInfo: "000042310004201"
-                    request:
-                      serviceType: "ORIGINAL"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-12"
-                        sequenceNumber: "891"
-                      transaction:
-                        amount: 50000
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                      cardAcceptor:
-                        merchantType: "5499"
-                      security:
-                        chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                        magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                        magStripeTrack2Data: "9456963027849254982D8739279"
-                Reversal:
-                  description: Support Reversal of MDES Original transaction purchase via E-commerce or In-Person
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-01"
-                        token:
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "1234"
-                        paymentAccountReference: "12345678901234567890123456789"
-                      services:
-                        - code: "50"
-                          result: "C"
-                    request:
-                      serviceType: "REVERSAL"
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                      original:
-                        responseCode: "00"
-                Acquirer-Advice:
-                  description: Support Acquirer generated advice to Mastercard when MDES purchase transaction is declined by Issuer
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      transaction:
-                        category: "T"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-01"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "123456"
-                        paymentAccountReference: "11111222223333344444555556666"
-                        pinServiceCode: "PIN_VERIFIED"
-                        cvcResponseCode: "M"
-                      services:
-                        - code: "50"
-                          result: "C"
-                        - code: "51"
-                          result: "U"
-                          bitErrorResults: "C0171"
-                          atcInfo: "0008800042G"
-                    request:
-                      serviceType: "ADVICE"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                      transaction:
-                        amount: "0000000050000"
-                        currency: "840"
-                        adviceReasonCode: "190"
-                      original:
-                        responseCode: "00"
-                Transaction-History-Advice:
-                  description: Allows customer to provide transaction advice after transaction processing for the Transaction Details Service (TDS). The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification and delivery of transaction details
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                    request:
-                      serviceType: "ADVICE"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        sequenceNumber: "891"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                      transaction:
-                        transactionType: "00"
-                        fromAccountType: "20"
-                        toAccountType: "20"
-                        amount: "0000000050000"
-                        currency: "840"
-                        submittedOn: "2019-04-12T10:28:04.651"
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                      cardAcceptor:
-                        name: "Walmart"
-                        location:
-                          city: "O'Fallon"
-                          state: "MO"
-                          country: "USA"
-                      original:
-                        mastercardReferenceId: "123456789"
-                        transaction:
-                          transactionType: "00"
-                        authorizationCode: "123456"
-                        responseCode: "00"
-                        messageType: "0110"
-                        services:
-                          - code: "50"
-                            result: "C"
-                          - code: "51"
-                            result: "V"
-                            issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                            atcInfo: "0008800042G"
-                Fraud-Services-Original:
-                  description: Supports Mastercard Safety and Security Services “fraud service Safety Net, Fraud Rules Manage,  Decision Intelligence and Consumer Controls” and provides fraud scoring
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      transaction:
-                        category: "T"
-                      card:
-                        accountNumber: "5400000000000000"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "123456"
-                        paymentAccountReference: "11111222223333344444555556666"
-                        pinServiceCode: "PIN_VERIFIED"
-                        cvcResponseCode: "M"
-                      security:
-                        pinBlock: "AQJeCgULCwc="
-                        digitalPayment:
-                          estimatedAmount: 123
-                          merchantId: "d3d3Lm1hY3lzLmNvbQ=="
-                      wallet:
-                        id: "103"
-                      services:
-                        - code: "50"
-                          result: "C"
-                        - code: "18"
-                          result: "C"
-                          fraudScore: "010310102020"
-                      securityServices:
-                        - code: "18"
-                          result: "C"
-                        - code: "18"
-                          result: "U"
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                    request:
-                      serviceType: "ORIGINAL"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-12"
-                        validationCode: "567"
-                        sequenceNumber: "891"
-                        country: "840"
-                      transaction:
-                        transactionType: "00"
-                        fromAccountType: "20"
-                        toAccountType: "20"
-                        purpose: 0
-                        typeIdentifier: "C01"
-                        amount: "000000050000"
-                        currency: "840"
-                        submittedOn:: "2019-04-12T10:28:04.651"
-                        settlementAmount: "000000050000"
-                        settlementCurrency: "840"
-                        billingAmount: "000000050000"
-                        billingCurrency: "840"
-                        billingConversionRate: "00050000"
-                        settlementDate: "2019-04-12"
-                        category: "T"
-                        adviceReasonCode: "000"
-                        promotionCode: "GREECE"
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                        pinEntryMode: "0"
-                        attendance: 0
-                        location: 0
-                        cardholderPresence: 0
-                        cardPresence: 0
-                        cardCaptureCapabilities: 0
-                        transactionSecurity: 0
-                        cardholderActivated: 4
-                        cardDataInputCapability: 2
-                        authorizationLifeCycle: 0
-                        country: "840"
-                        postalCode: "63026"
-                      cardAcceptor:
-                        merchantType: "5499"
-                        terminalId: "ID12345"
-                        acquirerId: "123456"
-                        merchantId: "ID12345"
-                        name: "Walmart"
-                        location:
-                          city: "O'Fallon"
-                          state: "MO"
-                          country: "USA"
-                      security:
-                        chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                        magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                        magStripeTrack2Data: "9456963027849254982D8739279"
-                        universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                        pinBlock: "AQJeCgULCwc="
-                        pinBlockFormat: "ISO_FORMAT_0"
-                        pinKeyIndex: 98
-                        digitalPayment:
-                          merchantId: "d3d3Lm1hY3lzLmNvbQ=="
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                        avsResponseCode: "P"
-                        cvcResponseCode: "M"
-                Fraud-Services-Advice:
-                  description: Support Customer generated advice to Mastercard when Original transaction is declined by Issuer
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                    request:
-                      serviceType: "ADVICE"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        validationCode: "567"
-                        country: "840"
-                        token:
-                          type: "C"
-                      transaction:
-                        transactionType: "00"
-                        fromAccountType: "00"
-                        toAccountType: "00"
-                        purpose: 0
-                        typeIdentifier: "C01"
-                        amount: 50000
-                        currency: "840"
-                        settlementAmount: 50000
-                        billingAmount: 50000
-                        category: "T"
-                        adviceReasonCode: "201"
-                        promotionCode: "GREECE"
-                        cardholderVerificationMethod: "P"
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                        pinEntryMode: "0"
-                        attendance: 0
-                        location: 0
-                        cardholderPresence: 0
-                        cardPresence: 0
-                        cardCaptureCapabilities: 0
-                        transactionSecurity: 0
-                        cardholderActivated: 4
-                        cardDataInputCapability: 2
-                        authorizationLifeCycle: 0
-                        country: "840"
-                        postalCode: "63026"
-                      cardAcceptor:
-                        merchantType: "5499"
-                        terminalId: "ID12345"
-                        acquirerId: "123456"
-                        merchantId: "ID12345"
-                        name: "Walmart"
-                        location:
-                          city: "O'Fallon"
-                          state: "MO"
-                          country: "USA"
-                      security:
-                        magStripeTrack2Data: "9456963027849254982D8739279"
-                      authentication:
-                        cvcResponseCode: "M"
-                      original:
-                        responseCode: "00"
-                        mastercardReferenceId: "123456789"
-                        securityServices:
-                          - code: "18"
-                            result: "C"
-                          - code: "18"
-                            result: "U"
-                Combined Response:
-                  value:
-                    response:
-                      responseCode: "00"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      mastercardReferenceId: "123456789"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-01"
-                        token:
-                          transactionId: "123456"
-                          type: "C"
-                          accountNumber: "5400000000000000"
-                          expiry: "2021-03"
-                          assuranceLevel: "12"
-                          requestorId: "1234"
-                        paymentAccountReference: "12345678901234567890123456789"
-                        pinServiceCode: "PIN_VERIFIED"
-                        cvcResponseCode: "M"
-                      wallet:
-                        id: "103"
-                      services:
-                        - code: "50"
-                          result: "C"
-                        - code: "51"
-                          result: "V"
-                          issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                          atcInfo: "0008800042G"
-                        - code: "52"
-                          result: "C"
-                          atcInfo: "0008800042G"
-                          timeValidationInfo: "000042310004201"
-                      securityServices:
-                        - code: "18"
-                          result: "C"
-                        - code: "18"
-                          result: "U"
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                    request:
-                      serviceType: "ORIGINAL"
-                      clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
-                      customer:
-                        id: "567899"
-                      card:
-                        accountNumber: "5400000000000000"
-                        expiry: "2023-12"
-                        validationCode: "567"
-                        sequenceNumber: "891"
-                        country: "840"
-                        token:
-                          transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
-                      transaction:
-                        transactionType: "00"
-                        fromAccountType: "20"
-                        toAccountType: "20"
-                        purpose: 0
-                        typeIdentifier: "C01"
-                        amount: "000000050000"
-                        currency: "840"
-                        settlementAmount: "000000050000"
-                        settlementCurrency: "840"
-                        billingAmount: "000000050000"
-                        billingCurrency: "840"
-                        submittedOn: "2019-04-12T10:28:04.651"
-                        billingConversionRate: "00050000"
-                        settlementDate: "2019-04-12"
-                        category: "T"
-                        adviceReasonCode: "000"
-                        promotionCode: "GREECE"
-                        cardholderVerificationMethod: "P"
-                      terminal:
-                        panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
-                        pinEntryMode: "0"
-                        attendance: 0
-                        location: 0
-                        cardholderPresence: 0
-                        cardPresence: 0
-                        cardCaptureCapabilities: 0
-                        transactionSecurity: 0
-                        cardholderActivated: 4
-                        cardDataInputCapability: 2
-                        authorizationLifeCycle: 0
-                        country: "840"
-                        postalCode: "63026"
-                      cardAcceptor:
-                        merchantType: "5499"
-                        terminalId: "ID12345"
-                        acquirerId: "123456"
-                        merchantId: "ID12345"
-                        name: "Walmart"
-                        location:
-                          city: "O'Fallon"
-                          state: "MO"
-                          country: "USA"
-                      security:
-                        chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
-                        magStripeTrack1Data: "94569790763027849890254982D87398989279"
-                        magStripeTrack2Data: "9456963027849254982D8739279"
-                        universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
-                        pinBlock: "AQJeCgULCwc="
-                        pinBlockFormat: "ISO_FORMAT_0"
-                        pinKeyIndex: 98
-                      authentication:
-                        securityProtocol: 9
-                        cardholderAuthentication: 0
-                        ucafCollectionIndicator: 0
-                        cvcResponseCode: "M"
-                      original:
-                        mastercardReferenceId: "123456789"
-                        transaction:
-                          transactionType: "00"
-                          fromAccountType: "20"
-                          toAccountType: "20"
-                          purpose: 0
-                          typeIdentifier: "C01"
-                          amount: "000000050000"
-                          currency: "840"
-                          settlementAmount: "000000050000"
-                          settlementCurrency: "840"
-                          billingAmount: "000000050000"
-                          billingCurrency: "840"
-                          submittedOn: "2019-04-12T10:28:04.651"
-                          billingConversionRate: "00050000"
-                          settlementDate: "2019-04-12"
-                          category: "T"
-                          adviceReasonCode: "000"
-                        authorizationCode: "123456"
-                        responseCode: "00"
-                        messageType: "0110"
-                        services:
-                          - code: "50"
-                            result: "C"
-                          - code: "51"
-                            result: "V"
-                            issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
-                            atcInfo: "0008800042G"
-                        securityServices:
-                          - code: "18"
-                            result: "C"
-                          - code: "18"
-                            result: "U"
+          $ref: '#/components/responses/Response'
         '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-              examples:
-                ValidationError:
-                  summary: Validation Error
-                  value:
-                    error:
-                      errors:
-                        error:
-                          source: "network-access-services"
-                          reasonCode: "VALIDATION_ERROR"
-                          description: "card.accountNumber"
-                          recoverable: false
-                          details: "size must be between 12 and 19"
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-              examples:
-                InternalServerError:
-                  summary: Internal Server Error
-                  value:
-                    error:
-                      errors:
-                        error:
-                          source: "network-access-services"
-                          reasonCode: "SYSTEM_ERROR"
-                          description: "Internal service system error"
-                          recoverable: false
-                          details: null
+          $ref: '#/components/responses/ResponseError'
 components:
   schemas:
     Customer:
@@ -1011,7 +42,7 @@ components:
           type: string
           example: "123456"
           description: Acquiring Institution ID Code
-    TokenRequest:
+    TokenRequestDetails:
       type: object
       description: Details of the tokenized card (for the request).
       properties:
@@ -1024,7 +55,56 @@ components:
           maxLength: 1
           example: "C"
           description: Private use data that a customer may want to include in a message. Possible values - [C, E, F, H, L, M, P, R, V]
-    CardRequest:
+    AlmRequestDetails:
+      type: object
+      description: Details of the account level management of the card request.
+      properties:
+        credentialExclusionIndicator:
+          type: string
+          enum: [ CREDIT, DEBIT, MAESTRO ]
+          example: "DEBIT"
+          description: The Mastercard One Credential Exclusion Indicator allows an acquirer to instruct Mastercard to limit the conditions in which the Mastercard One Credential service will apply to qualified transactions. Possible values - [CREDIT, DEBIT, MAESTRO]
+        accountNumberIndicator:
+          type: string
+          example: "1"
+          description: Indicates the type of account number sent to the Issuer. Currently only one value is supported - 1 - Mastercard One Credential Funding PAN. Always send ("accountNumberIndicator" as "1").
+        accountNumber:
+          type: string
+          example: "5574190000086300"
+          description: Contains Mastercard One Credential account number (Funding PAN) to the Issuer.
+        accountNumberExpiry:
+          type: string
+          example: "2028-12-31"
+          description: Contains Mastercard One Credential account number expiration date. Must be in ‘YYYY-mm-dd’ format.
+    AdditionalAmountsRequestDetails:
+      type: object
+      description: Details of the additional amounts.
+      properties:
+        accountType:
+          type: integer
+          example: "00"
+          description: Contains 2 digit code as defined in transaction.fromAccountType or transaction.toAccountType.
+        amountType:
+          type: string
+          enum: [ "01", "02", "03", "04", "05", "06", "10", "11", "12", "17", "40", "44", "57", "58", "59", "69", "80", "90", "91", "92", "93", "95" ]
+          example: "01"
+          description: Indicates the type of amount applied.
+            Possible values -[‘01 - Ledger balance’,‘02 - Available balance’,‘03 - Amount owing’,‘04 - Amount due’,‘05 - Future transaction amount’,‘06 - Product Status Inquiry Transaction Amount’,‘10 - Healthcare eligibility amount’,
+            ‘11 - Prescription eligibility amount’,‘12 - Vision Rx eligibility amount’,‘17 - Prepaid online bill pay fee amount’,‘40 - Cash back’,‘44 - Amount Gratuity’,‘57 - Original Amount’,‘58 - POI Amount’,‘59 - Limit/Balance amount available from Mastercard In Control’,
+            ‘69 - Tax Amount’,‘80 - Copay Amount’,‘90 - Available Credit’,‘91 - Credit Limit’,‘92 - Outstanding hold amounts’,‘93 - Resiliency Account Balance Amount’,‘95 - Visa Money Transfer Foreign Exchange Fee (Visa Only)’]
+        currencyCode:
+          type: integer
+          example: "840"
+          description: Contains the numeric currency code.
+        amountIndicator:
+          type: string
+          example: "C"
+          description: Indicates the amount is a credit or debit indicator.
+        amount:
+          type: integer
+          example: "6000"
+          description: Contains the credit or debit amount.
+    CardRequestDetails:
       type: object
       description: Card Details
       required:
@@ -1042,20 +122,26 @@ components:
         validationCode:
           type: string
           example: "123"
-          description: CVC 2
+          description: CVC 2 is a three or four digit value which provides our payment system with a check of customers credit card's authenticity
         sequenceNumber:
           type: string
           example: "123"
-          description: Sequence Number
+          description: Card Sequence Number distinguishes among separate cards that have the same Primary Account Number
         country:
           type: string
           example: "840"
           description: Primary account number country code.This is code is used to identify the
             country where card issuer is located. Country codes are ISO 3166 specified numeric
             codes.
+        paymentAccountReference:
+          type: string
+          example: "12345678901234567890123456789"
+          description: A PAR is a unique value associated with a single PAN and attributed to all tokens associated with that PAN. A PAR can be used to link transactions containing PANs or tokens associated with the same underlying payment account.
         token:
-          $ref: '#/components/schemas/TokenRequest'
-    TransactionRequest:
+          $ref: '#/components/schemas/TokenRequestDetails'
+        alm:
+          $ref: '#/components/schemas/AlmRequestDetails'
+    TransactionRequestDetails:
       type: object
       description: Transaction details (for the request).
       properties:
@@ -1091,7 +177,7 @@ components:
           minimum: 0
           maximum: 999999999999
           example: 50000
-          description: Transaction amount.
+          description: Transaction amount is the amount of funds the cardholder requested in the currency appearing on the transaction information document.
         currency:
           type: string
           maxLength: 3
@@ -1108,7 +194,7 @@ components:
           minimum: 0
           maximum: 999999999999
           example: 20000
-          description: Settlement amount.
+          description: Settlement amount is the value converted to the customer’s reconciliation payment or settlement currency.
         settlementCurrency:
           type: string
           maxLength: 3
@@ -1119,17 +205,17 @@ components:
           format: int64
           minimum: 0
           maximum: 999999999999
-          description: Billing amount.
+          description: Billing amount is the amount converted to the issuer’s designated cardholder billing currency.
           example: 30000
         billingCurrency:
           type: string
           maxLength: 3
-          description: ISO 4217 3 digit nemeric currency code.
+          description: ISO 4217 3 digit numeric currency code.
           example: "840"
         billingConversionRate:
           type: string
           maxLength: 8
-          description: 8 digit nemeric.
+          description: 8 digit numeric.
           example: "10000000"
         settlementDate:
           type: string
@@ -1139,7 +225,7 @@ components:
         category:
           type: string
           example: "T"
-          description: Transaction category.
+          description: Transaction category of the request.
         adviceReasonCode:
           type: string
           maxLength: 3
@@ -1155,6 +241,12 @@ components:
           maxLength: 1
           example: "P"
           description: Transaction cardholder Verification Method.
+        additionalAmounts:
+          $ref: '#/components/schemas/AdditionalAmountsRequestDetails'
+        purposeExtended:
+          type: integer
+          example: "2"
+          description: Indicates the extended purpose of the request. A value of 2 (‘Product Status Inquiry’) identifies a Mastercard One Credential (M1C) transaction.
     Terminal:
       type: object
       description: Details of the Terminal.
@@ -1235,15 +327,15 @@ components:
         city:
           type: string
           example: "O'Fallon"
-          description: City
+          description: Contains city details of the card acceptor
         state:
           type: string
           example: "MO"
-          description: State
+          description: Contains state details of the card acceptor
         country:
           type: string
           example: "USA"
-          description: Country
+          description: Contains country details of the card acceptor
     CardAcceptor:
       type: object
       description: Details of the card acceptor.
@@ -1253,19 +345,19 @@ components:
           minLength: 4
           maxLength: 4
           example: "5499"
-          description: Merchant type classification.
+          description: Merchant type classification. Must be a 4 byte string.
         terminalId:
           type: string
           maxLength: 8
           example: "12345678"
           description: Uniquely identifies a terminal at the card acceptor location of
-            acquiring institutions or merchant POS system.
+            acquiring institutions or merchant POS system. Max size of 8 bytes.
         merchantId:
           type: string
           maxLength: 15
           example: BOA568
           description: Identifies the card acceptor that defines the point of the transaction in
-            both local and interchange environments.
+            both local and interchange environments. Max size of 15 bytes.
         name:
           type: string
           example: ToysRUs
@@ -1277,28 +369,32 @@ components:
           type: string
           maxLength: 6
           example: "123456"
-          description: Identifies the acquiring institution or its agent.
+          description: Identifies the acquiring institution or its agent. Max size of 6 bytes, must be a numeric string.
         assignedId:
           type: string
           maxLength: 6
           example: "786RGF"
-          description: Merchant Id assigned by Mastercard.
+          description: Merchant Id assigned by Mastercard. Max size of 6 bytes
         paymentFacilitatorId:
           type: string
           maxLength: 11
           example: "987898"
-          description: Payment Facilitator Id.
+          description: Payment Facilitator Id. Max size of 11 bytes
         salesOrgId:
           type: string
           maxLength: 11
           example: "456723"
-          description: Independent Sales Organization ID.
+          description: Independent Sales Organization ID. Max size of 11 bytes
         subMerchantId:
           type: string
           maxLength: 15
           example: "BOA568"
-          description: Merchant ID of the sub-merchant.
-    SecurityRequest:
+          description: Merchant ID of the sub-merchant. Max size of 15 bytes
+        transactionInitiator:
+          type: string
+          example: "Init"
+          description: Allows acquirers to identify whether the transaction was initiated by the cardholder or the merchant as well as providing more detail as to the type of stored credential being used for the transaction.
+    SecurityRequestDetails:
       type: object
       description: Details of security related values.
       properties:
@@ -1335,22 +431,22 @@ components:
           description: Indicates the specific PIN key to be used when more than one key is
             available in a PIN key set.
         digitalPayment:
-          $ref: '#/components/schemas/DigitalPaymentRequest'
-    DigitalPaymentRequest:
+          $ref: '#/components/schemas/DigitalPaymentRequestDetails'
+    DigitalPaymentRequestDetails:
       type: object
       description: Details of the Digital Payment data.
       properties:
         cryptogram:
           type: string
           format: byte
-          example:
+          example: "NUYyQTAyMDk3ODgyMDI1QzAwOTU"
           description: Digital Payment Cryptogram
         merchantId:
           type: string
           format: byte
           example: "d3d3Lm1hY3lzLmNvbQ=="
-          description: Merchant Identifier
-    AuthenticationRequest:
+          description: Merchant Identifier of the Digital Payment data
+    AuthenticationRequestDetails:
       type: object
       description: Details of the ecom indicators.
       properties:
@@ -1358,7 +454,7 @@ components:
           type: integer
           format: int32
           example: 1
-          description: Security Protocol
+          description: Security Protocol details of the ecom indicators
         cardholderAuthentication:
           type: integer
           format: int32
@@ -1389,11 +485,11 @@ components:
           example: "123456789"
           description: Mastercard Banknet reference number.
         transaction:
-          $ref: '#/components/schemas/TransactionRequest'
+          $ref: '#/components/schemas/TransactionRequestDetails'
         authorizationCode:
           type: string
           example: "123456"
-          description: Authorization code.
+          description: Authorization code is a code the authorizing institution assigns indicating approval.
         responseCode:
           type: string
           example: "00"
@@ -1401,7 +497,7 @@ components:
         messageType:
           type: string
           example: "0110"
-          description: Message type.
+          description: Message type details of the original transaction.
         services:
           type: array
           items:
@@ -1420,8 +516,8 @@ components:
           type: string
           example: "103"
           maxLength: 3
-          description: Wallet Identifier.
-    DirectServiceRequest:
+          description: Wallet Identifier refers to unique identifier of the wallet.
+    DirectServiceRequestDetails:
       type: object
       description: Direct Service Request
       required:
@@ -1439,22 +535,62 @@ components:
         customer:
           $ref: '#/components/schemas/Customer'
         card:
-          $ref: '#/components/schemas/CardRequest'
+          $ref: '#/components/schemas/CardRequestDetails'
         wallet:
           $ref: '#/components/schemas/Wallet'
         transaction:
-          $ref: '#/components/schemas/TransactionRequest'
+          $ref: '#/components/schemas/TransactionRequestDetails'
         terminal:
           $ref: '#/components/schemas/Terminal'
         cardAcceptor:
           $ref: '#/components/schemas/CardAcceptor'
         security:
-          $ref: '#/components/schemas/SecurityRequest'
+          $ref: '#/components/schemas/SecurityRequestDetails'
         authentication:
-          $ref: '#/components/schemas/AuthenticationRequest'
+          $ref: '#/components/schemas/AuthenticationRequestDetails'
         original:
           $ref: '#/components/schemas/OriginalAuthorization'
-    CardResponse:
+    AlmResponseDetails:
+      type: object
+      description: Details of the accont level management of the card response.
+      properties:
+        serviceCode:
+          type: string
+          example: "00000"
+          description: Represents the Account Level Management service or combination of ALM services for which the PAN is actively registered
+        productCode:
+          type: string
+          example: "456"
+          description: Indicates the licensed graduated product code or the registered product code for those transactions identified with a PAN registered and qualifying for PGP or Consumer Product Monitoring Service (CAN only), or a combination of ALM Services
+        productClass:
+          type: string
+          example: "1"
+          description: Indicates the Product Class Override for the applicable ALM Service
+        rateType:
+          type: string
+          example: "801"
+          description: Indicates the Rate Type number for the applicable ALM Service
+        mo:
+          $ref: '#/components/schemas/MoResponseDetails'
+    MoResponseDetails:
+      type: object
+      description: Details of the Mastercard One Credential associated with the card product.
+      properties:
+        acceptanceBrand:
+          type: string
+          enum: [ MCC, DMC, MSI ]
+          example: "MCC"
+          description: Contains the Mastercard One Acceptance Brand of the Product Code. Possible values - [MCC, DMC, MSI]
+        interchangeIndicator:
+          type: string
+          enum: [ D, S ]
+          example: "D"
+          description: Identifies the transaction as dynamic or static interchange. Possible values - [D, S]
+        issuerAccountRange:
+          type: string
+          example: "123456"
+          description: Contains the Mastercard One Credential funding PAN’s issuer account range.
+    CardResponseDetails:
       type: object
       description: Details of the detokenized card.
       properties:
@@ -1468,7 +604,7 @@ components:
           example: "2023-01"
           description: Expiry date of Funding/ Real Card number
         token:
-          $ref: '#/components/schemas/TokenResponse'
+          $ref: '#/components/schemas/TokenResponseDetails'
         paymentAccountReference:
           type: string
           example: "12345678901234567890123456789"
@@ -1486,7 +622,13 @@ components:
           example: "A"
           description: Address Verification Service Response contains the AVS verification response
             code in the Authorization Request Response/0110 message. Possible values - [A, N, R, S, U, W, X, Y, Z, B, C, D, F, G, I, M, P]
-    TokenResponse:
+        alm:
+          $ref: '#/components/schemas/AlmResponseDetails'
+        product:
+          type: string
+          example: "MC"
+          description: Contains (Financial Network Code) identifies the specific program or service (for example, the financial network, financial program, or card program) with which the transaction is associated.
+    TokenResponseDetails:
       type: object
       description: Details of the tokenized card (for the response).
       properties:
@@ -1523,11 +665,11 @@ components:
         code:
           type: string
           example: "50"
-          description: Service code.
+          description: Service code of the service performed.
         result:
           type: string
           example: "C"
-          description: Service result.
+          description: Service result of the service performed.
         issuerAuthenticationData:
           type: string
           format: byte
@@ -1540,7 +682,7 @@ components:
         atcInfo:
           type: string
           example: "0008800042G"
-          description: ATC Information.
+          description: ATC Information of the service performed.
         timeValidationInfo:
           type: string
           example: "000042310004201"
@@ -1550,7 +692,7 @@ components:
           maxLength: 32
           example: "010310102020"
           description: Indicates the fraud score on a fraud scoring service transaction.
-    SecurityResponse:
+    SecurityResponseDetails:
       type: object
       description: Security Details
       properties:
@@ -1561,8 +703,8 @@ components:
           description: PIN(Personal ID Number) Data contains a number assigned to a cardholder
             intended to uniquely identify that cardholder at the point of interaction
         digitalPayment:
-          $ref: '#/components/schemas/DigitalPaymentResponse'
-    DigitalPaymentResponse:
+          $ref: '#/components/schemas/DigitalPaymentResponseDetails'
+    DigitalPaymentResponseDetails:
       type: object
       description: Details of the Digital Payment data in the response.
       properties:
@@ -1575,16 +717,20 @@ components:
           type: string
           format: byte
           example: "d3d3Lm1hY3lzLmNvbQ=="
-          description: Merchant Identifier
-    TransactionResponse:
+          description: Merchant Identifier of the Digital Payment data in the response
+    TransactionResponseDetails:
       type: object
       description: Transaction details (for the response).
       properties:
         category:
           type: string
           example: "C"
-          description: Transaction category
-    AuthenticationResponse:
+          description: Transaction category of the response transaction.
+        financialAccountIdentifier:
+          type: string
+          example: "123456789"
+          description: Contains the bank account information or other financial account information associated with the Mastercard Pay by Account token at the time the transaction occurred.
+    AuthenticationResponseDetails:
       type: object
       description: Details of the ecom indicators.
       properties:
@@ -1592,7 +738,7 @@ components:
           type: integer
           format: int32
           example: 9
-          description: Security Protocol
+          description: Security Protocol of the ecom indicators
         cardholderAuthentication:
           type: integer
           format: int32
@@ -1610,7 +756,7 @@ components:
         responseCode:
           type: string
           example: "05"
-          description: Response code.
+          description: Contains the response code with a recommendation to proceed with the transaction processing or decline.
         clientTransactionId:
           type: string
           example: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
@@ -1620,11 +766,11 @@ components:
           example: "123456789"
           description: Mastercard Banknet reference number.
         transaction:
-          $ref: '#/components/schemas/TransactionResponse'
+          $ref: '#/components/schemas/TransactionResponseDetails'
         card:
-          $ref: '#/components/schemas/CardResponse'
+          $ref: '#/components/schemas/CardResponseDetails'
         security:
-          $ref: '#/components/schemas/SecurityResponse'
+          $ref: '#/components/schemas/SecurityResponseDetails'
         wallet:
           $ref: '#/components/schemas/Wallet'
         services:
@@ -1636,32 +782,37 @@ components:
           items:
             $ref: '#/components/schemas/Service'
         authentication:
-          $ref: '#/components/schemas/AuthenticationResponse'
-    DirectServiceResponse:
+          $ref: '#/components/schemas/AuthenticationResponseDetails'
+    DirectServiceResponseDetails:
       type: object
       description: Direct Service API Response
       properties:
         response:
           $ref: '#/components/schemas/ResponseDetails'
         request:
-          $ref: '#/components/schemas/DirectServiceRequest'
+          $ref: '#/components/schemas/DirectServiceRequestDetails'
     Error:
       type: "object"
       properties:
         Source:
           type: "string"
+          example: "network-access-services"
           description: The application that generated this error.
         ReasonCode:
           type: "string"
+          example: "VALIDATION_ERROR"
           description: Identifies the error case encountered during transaction processing.
         Description:
           type: "string"
+          example: "card.accountNumber"
           description: Description of the reason code. In the case of a VALIDATION_ERROR, the field name will appear here.
         Recoverable:
           type: "boolean"
+          example: "false"
           description: Indicates whether this error will always be returned for this request, or retrying could change the outcome.
         Details:
           type: "string"
+          example: "must not be null"
           description: If VALIDATION_ERROR, this provides detailed information about data received.
     ErrorResponse:
       type: object
@@ -1670,10 +821,10 @@ components:
       properties:
         Error:
           type: array
+          description: List object containing type of errors
           minItems: 1
           items:
             $ref: "#/components/schemas/Error"
-      description: List object containing type of errors
     Errors:
       type: object
       required:
@@ -1681,3 +832,1019 @@ components:
       properties:
         Errors:
           $ref: "#/components/schemas/ErrorResponse"
+  requestBodies:
+    DirectService:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DirectServiceRequestDetails'
+          examples:
+            E-Commerce:
+              description: An E-Commerce request performs an MDES detokenization and crypto validation service for cardholders using digital devices for E-commerce purchases.
+              value:
+                serviceType: "ORIGINAL"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  expiry: "2023-12"
+                  validationCode: "567"
+                  sequenceNumber: "891"
+                wallet:
+                  id: "101"
+                transaction:
+                  transactionType: "00"
+                  fromAccountType: "20"
+                  toAccountType: "20"
+                  amount: 50000
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                cardAcceptor:
+                  merchantType: "5499"
+                  assignedId: "786RGF"
+                  paymentFacilitatorId: "987898"
+                  salesOrgId: "456723"
+                  subMerchantId: "BOA568"
+                security:
+                  chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                  universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                  pinBlock: "AQJeCgULCwc="
+                  pinBlockFormat: "ISO_FORMAT_0"
+                  pinKeyIndex: 98
+                  digitalPayment:
+                    merchantId: "d3d3Lm1hY3lzLmNvbQ=="
+                authentication:
+                  securityProtocol: 9
+                  cardholderAuthentication: 0
+                  ucafCollectionIndicator: 0
+            In-Person:
+              description: An In-Person request performs an MDES detokenization and crypto validation service for cardholders using digital devices for in-store purchases via Contactless and Dynamic Magnetic Stripe payment methods.
+              value:
+                serviceType: "ORIGINAL"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  expiry: "2023-12"
+                  sequenceNumber: "891"
+                transaction:
+                  amount: 50000
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                cardAcceptor:
+                  merchantType: "5499"
+                security:
+                  chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                  magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                  magStripeTrack2Data: "9456963027849254982D8739279"
+            Reversal:
+              description: A Reversal request supports the reversal of an original MDES transaction purchase made via E-commerce or In-Person DS API request.
+              value:
+                serviceType: "REVERSAL"
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                transaction:
+                  amount: 123
+                original:
+                  responseCode: "00"
+            Acquirer-Advice:
+              description: An Acquirer Advice request supports acquirer-generated advice to Mastercard when an MDES purchase transaction is declined by an Issuer.
+              value:
+                serviceType: "ADVICE"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                transaction:
+                  amount: "0000000050000"
+                  currency: "840"
+                  adviceReasonCode: "190"
+                original:
+                  responseCode: "00"
+            Transaction-History-Advice:
+              description: A Transaction History Advice request allows a customer to provide transaction advice for the Mastercard Transaction Details Service (TDS) after transaction processing. The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification, and delivery of transaction details.
+              value:
+                serviceType: "ADVICE"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  sequenceNumber: "891"
+                  token:
+                    transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                transaction:
+                  transactionType: "00"
+                  fromAccountType: "20"
+                  toAccountType: "20"
+                  amount: "0000000050000"
+                  currency: "840"
+                  submittedOn: "2019-04-12T10:28:04.651"
+                  adviceReasonCode: "201"
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                cardAcceptor:
+                  name: "Walmart"
+                  location:
+                    city: "O'Fallon"
+                    state: "MO"
+                    country: "USA"
+                original:
+                  mastercardReferenceId: "123456789"
+                  transaction:
+                    transactionType: "00"
+                  authorizationCode: "123456"
+                  responseCode: "00"
+                  messageType: "0110"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "51"
+                      result: "V"
+                      issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                      atcInfo: "0008800042G"
+            Fraud-Services-Original:
+              description: A Fraud Services Original request supports the Mastercard Safety and Security Services “Fraud Service Safety Net, Fraud Rules Manage, Decision Intelligence, and Consumer Controls” and provides fraud scoring.
+              value:
+                serviceType: "ORIGINAL"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  expiry: "2023-12"
+                  validationCode: "567"
+                  sequenceNumber: "891"
+                  country: "840"
+                  alm:
+                    accountNumberIndicator: "1"
+                    accountNumber: "5574190000086300"
+                    accountNumberExpiry: "2028-12-31"
+                    credentialExclusionIndicator: "DEBIT"
+                transaction:
+                  transactionType: "00"
+                  fromAccountType: "20"
+                  toAccountType: "20"
+                  purpose: 0
+                  typeIdentifier: "C01"
+                  amount: "000000050000"
+                  currency: "840"
+                  submittedOn: "2019-04-12T10:28:04.651"
+                  settlementAmount: "000000050000"
+                  settlementCurrency: "840"
+                  billingAmount: "000000050000"
+                  billingCurrency: "840"
+                  billingConversionRate: "00050000"
+                  settlementDate: "2019-04-12"
+                  category: "T"
+                  adviceReasonCode: "000"
+                  promotionCode: "GREECE"
+                  additionalAmounts:
+                    accountType: "01"
+                    amountType: "02"
+                    currencyCode: "840"
+                    amount: "5000"
+                    amountIndicator: "CREDIT"
+                  purposeExtended: 2
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  pinEntryMode: "0"
+                  attendance: 0
+                  location: 0
+                  cardholderPresence: 0
+                  cardPresence: 0
+                  cardCaptureCapabilities: 0
+                  transactionSecurity: 0
+                  cardholderActivated: 4
+                  cardDataInputCapability: 2
+                  authorizationLifeCycle: 0
+                  country: "840"
+                  postalCode: "63026"
+                cardAcceptor:
+                  merchantType: "5499"
+                  terminalId: "ID12345"
+                  acquirerId: "123456"
+                  merchantId: "ID12345"
+                  name: "Walmart"
+                  location:
+                    city: "O'Fallon"
+                    state: "MO"
+                    country: "USA"
+                security:
+                  chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                  magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                  magStripeTrack2Data: "9456963027849254982D8739279"
+                  universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                  pinBlock: "AQJeCgULCwc="
+                  pinBlockFormat: "ISO_FORMAT_0"
+                  pinKeyIndex: 98
+                  transactionInitiator: "Init"
+                  digitalPayment:
+                    merchantId: "d3d3Lm1hY3lzLmNvbQ=="
+                authentication:
+                  securityProtocol: 9
+                  cardholderAuthentication: 0
+                  ucafCollectionIndicator: 0
+                  avsResponseCode: "P"
+                  cvcResponseCode: "M"
+            Fraud-Services-Advice:
+              description: A Fraud Services Advice request supports customer-generated advice to Mastercard when an original transaction is declined by an Issuer.
+              value:
+                serviceType: "ADVICE"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  validationCode: "567"
+                  country: "840"
+                  token:
+                    type: "C"
+                  paymentAccountReference: "12345678901234567890123456789"
+                transaction:
+                  transactionType: "00"
+                  fromAccountType: "00"
+                  toAccountType: "00"
+                  purpose: 0
+                  typeIdentifier: "C01"
+                  amount: 50000
+                  currency: "840"
+                  settlementAmount: 50000
+                  billingAmount: 50000
+                  category: "T"
+                  adviceReasonCode: "201"
+                  promotionCode: "GREECE"
+                  cardholderVerificationMethod: "P"
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  pinEntryMode: "0"
+                  attendance: 0
+                  location: 0
+                  cardholderPresence: 0
+                  cardPresence: 0
+                  cardCaptureCapabilities: 0
+                  transactionSecurity: 0
+                  cardholderActivated: 4
+                  cardDataInputCapability: 2
+                  authorizationLifeCycle: 0
+                  country: "840"
+                  postalCode: "63026"
+                cardAcceptor:
+                  merchantType: "5499"
+                  terminalId: "ID12345"
+                  acquirerId: "123456"
+                  merchantId: "ID12345"
+                  name: "Walmart"
+                  location:
+                    city: "O'Fallon"
+                    state: "MO"
+                    country: "USA"
+                security:
+                  magStripeTrack2Data: "9456963027849254982D8739279"
+                authentication:
+                  cvcResponseCode: "M"
+                original:
+                  responseCode: "00"
+                  mastercardReferenceId: "123456789"
+                  securityServices:
+                    - code: "18"
+                      result: "C"
+                    - code: "18"
+                      result: "U"
+            Combined Request:
+              description: A Sample DirectService request
+              value:
+                serviceType: "ORIGINAL"
+                clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                customer:
+                  id: "567899"
+                card:
+                  accountNumber: "5400000000000000"
+                  expiry: "2023-12"
+                  validationCode: "567"
+                  sequenceNumber: "891"
+                  country: "840"
+                  token:
+                    transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                    type: "C"
+                  paymentAccountReference: "12345678901234567890123456789"
+                  alm:
+                    accountNumberIndicator: "1"
+                    accountNumber: "5574190000086300"
+                    accountNumberExpiry: "2028-12-31"
+                    credentialExclusionIndicator: "DEBIT"
+                wallet:
+                  id: "101"
+                transaction:
+                  transactionType: "00"
+                  fromAccountType: "20"
+                  toAccountType: "20"
+                  purpose: 0
+                  typeIdentifier: "C01"
+                  amount: "000000050000"
+                  currency: "840"
+                  settlementAmount: "000000050000"
+                  settlementCurrency: "840"
+                  billingAmount: "000000050000"
+                  billingCurrency: "840"
+                  submittedOn: "2019-04-12T10:28:04.651"
+                  billingConversionRate: "00050000"
+                  settlementDate: "2019-04-12"
+                  category: "T"
+                  adviceReasonCode: "000"
+                  promotionCode: "GREECE"
+                  cardholderVerificationMethod: "P"
+                  additionalAmounts:
+                    accountType: "01"
+                    amountType: "02"
+                    currencyCode: "840"
+                    amount: "5000"
+                    amountIndicator: "CREDIT"
+                  purposeExtended: 2
+                terminal:
+                  panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  pinEntryMode: "0"
+                  attendance: 0
+                  location: 0
+                  cardholderPresence: 0
+                  cardPresence: 0
+                  cardCaptureCapabilities: 0
+                  transactionSecurity: 0
+                  cardholderActivated: 4
+                  cardDataInputCapability: 2
+                  authorizationLifeCycle: 0
+                  country: "840"
+                  postalCode: "63026"
+                cardAcceptor:
+                  merchantType: "5499"
+                  terminalId: "ID12345"
+                  acquirerId: "123456"
+                  merchantId: "ID12345"
+                  name: "Walmart"
+                  assignedId: "786RGF"
+                  paymentFacilitatorId: "987898"
+                  salesOrgId: "456723"
+                  subMerchantId: "BOA568"
+                  location:
+                    city: "O'Fallon"
+                    state: "MO"
+                    country: "USA"
+                  transactionInitiator: "Init"
+                security:
+                  chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                  magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                  magStripeTrack2Data: "9456963027849254982D8739279"
+                  universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                  pinBlock: "AQJeCgULCwc="
+                  pinBlockFormat: "ISO_FORMAT_0"
+                  pinKeyIndex: 98
+                authentication:
+                  securityProtocol: 9
+                  cardholderAuthentication: 0
+                  ucafCollectionIndicator: 0
+                  avsResponseCode: "P"
+                  cvcResponseCode: "M"
+                original:
+                  mastercardReferenceId: "123456789"
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "00"
+                    toAccountType: "00"
+                    purpose: 0
+                    typeIdentifier: "C01"
+                    amount: 50000
+                    currency: "840"
+                    settlementAmount: 50000
+                    settlementCurrency: "840"
+                    billingAmount: 50000
+                    billingCurrency: "840"
+                    submittedOn: "2019-04-12T10:28:04.651"
+                    billingConversionRate: "00050000"
+                    settlementDate: "2019-04-12"
+                    category: "T"
+                    adviceReasonCode: "201"
+                  authorizationCode: "123456"
+                  responseCode: "00"
+                  messageType: "0110"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "51"
+                      result: "V"
+                      issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                      atcInfo: "0008800042G"
+                  securityServices:
+                    - code: "18"
+                      result: "C"
+                    - code: "18"
+                      result: "U"
+  responses:
+    Response:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DirectServiceResponseDetails'
+          examples:
+            E-Commerce:
+              description: MDES detokenization and crypto validation service for cardholders using digital device for E-commerce purchase
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  transaction:
+                    category: "T"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-01"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "123456"
+                    paymentAccountReference: "11111222223333344444555556666"
+                    pinServiceCode: "PIN_VERIFIED"
+                    cvcResponseCode: "M"
+                  wallet:
+                    id: "103"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "62"
+                      result: "V"
+                      issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                      atcInfo: "0008800042G"
+                      timeValidationInfo: "000042310004201"
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+                  security:
+                    pinBlock: "AQJeCgULCwc="
+                    digitalPayment:
+                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
+                request:
+                  serviceType: "ORIGINAL"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-12"
+                    validationCode: "567"
+                    sequenceNumber: "891"
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "20"
+                    toAccountType: "20"
+                    amount: 50000
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  cardAcceptor:
+                    merchantType: "5499"
+                  security:
+                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                    pinBlock: "AQJeCgULCwc="
+                    pinBlockFormat: "ISO_FORMAT_0"
+                    pinKeyIndex: 98
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+            In-Person:
+              description: MDES detokenization and crypto validation service for cardholders using digital device for in-store purchase via Contactless and Dynamic Magnetic Stripe
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-01"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "123456"
+                    paymentAccountReference: "11111222223333344444555556666"
+                    pinServiceCode: "PIN_VERIFIED"
+                  wallet:
+                    id: "103"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "62"
+                      result: "V"
+                      issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                      atcInfo: "0008800042G"
+                      timeValidationInfo: "000042310004201"
+                request:
+                  serviceType: "ORIGINAL"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-12"
+                    sequenceNumber: "891"
+                  transaction:
+                    amount: 50000
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  cardAcceptor:
+                    merchantType: "5499"
+                  security:
+                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                    magStripeTrack2Data: "9456963027849254982D8739279"
+            Reversal:
+              description: Support Reversal of MDES Original transaction purchase via E-commerce or In-Person
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-01"
+                    token:
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "1234"
+                    paymentAccountReference: "12345678901234567890123456789"
+                  services:
+                    - code: "50"
+                      result: "C"
+                request:
+                  serviceType: "REVERSAL"
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                  original:
+                    responseCode: "00"
+            Acquirer-Advice:
+              description: Support Acquirer generated advice to Mastercard when MDES purchase transaction is declined by Issuer
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  transaction:
+                    category: "T"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-01"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "123456"
+                    paymentAccountReference: "11111222223333344444555556666"
+                    pinServiceCode: "PIN_VERIFIED"
+                    cvcResponseCode: "M"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "51"
+                      result: "U"
+                      bitErrorResults: "C0171"
+                      atcInfo: "0008800042G"
+                request:
+                  serviceType: "ADVICE"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                  transaction:
+                    amount: "0000000050000"
+                    currency: "840"
+                    adviceReasonCode: "190"
+                  original:
+                    responseCode: "00"
+            Transaction-History-Advice:
+              description: Allows customer to provide transaction advice after transaction processing for the Transaction Details Service (TDS). The TDS manages the interactions between Mastercard, the Wallet Provider, and the cardholder’s device for the registration, notification and delivery of transaction details
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                request:
+                  serviceType: "ADVICE"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    sequenceNumber: "891"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "20"
+                    toAccountType: "20"
+                    amount: "0000000050000"
+                    currency: "840"
+                    submittedOn: "2019-04-12T10:28:04.651"
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                  cardAcceptor:
+                    name: "Walmart"
+                    location:
+                      city: "O'Fallon"
+                      state: "MO"
+                      country: "USA"
+                  original:
+                    mastercardReferenceId: "123456789"
+                    transaction:
+                      transactionType: "00"
+                    authorizationCode: "123456"
+                    responseCode: "00"
+                    messageType: "0110"
+                    services:
+                      - code: "50"
+                        result: "C"
+                      - code: "51"
+                        result: "V"
+                        issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                        atcInfo: "0008800042G"
+            Fraud-Services-Original:
+              description: Supports Mastercard Safety and Security Services “fraud service Safety Net, Fraud Rules Manage,  Decision Intelligence and Consumer Controls” and provides fraud scoring
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  transaction:
+                    category: "T"
+                    financialAccountIdentifier: "123456789"
+                  card:
+                    accountNumber: "5400000000000000"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "123456"
+                    paymentAccountReference: "11111222223333344444555556666"
+                    pinServiceCode: "PIN_VERIFIED"
+                    cvcResponseCode: "M"
+                    product: "MC"
+                    alm:
+                      serviceCode: "00000"
+                      productCode: "456"
+                      productClass: "1"
+                      rateType: "801"
+                      mo:
+                        acceptanceBrand: "MCC"
+                        interchangeIndicator: "D"
+                        issuerAccountRange: "123456"
+                  security:
+                    pinBlock: "AQJeCgULCwc="
+                    digitalPayment:
+                      estimatedAmount: 123
+                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
+                  wallet:
+                    id: "103"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "18"
+                      result: "C"
+                      fraudScore: "010310102020"
+                  securityServices:
+                    - code: "18"
+                      result: "C"
+                    - code: "18"
+                      result: "U"
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+                request:
+                  serviceType: "ORIGINAL"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-12"
+                    validationCode: "567"
+                    sequenceNumber: "891"
+                    country: "840"
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "20"
+                    toAccountType: "20"
+                    purpose: 0
+                    typeIdentifier: "C01"
+                    amount: "000000050000"
+                    currency: "840"
+                    submittedOn: "2019-04-12T10:28:04.651"
+                    settlementAmount: "000000050000"
+                    settlementCurrency: "840"
+                    billingAmount: "000000050000"
+                    billingCurrency: "840"
+                    billingConversionRate: "00050000"
+                    settlementDate: "2019-04-12"
+                    category: "T"
+                    adviceReasonCode: "000"
+                    promotionCode: "GREECE"
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                    pinEntryMode: "0"
+                    attendance: 0
+                    location: 0
+                    cardholderPresence: 0
+                    cardPresence: 0
+                    cardCaptureCapabilities: 0
+                    transactionSecurity: 0
+                    cardholderActivated: 4
+                    cardDataInputCapability: 2
+                    authorizationLifeCycle: 0
+                    country: "840"
+                    postalCode: "63026"
+                  cardAcceptor:
+                    merchantType: "5499"
+                    terminalId: "ID12345"
+                    acquirerId: "123456"
+                    merchantId: "ID12345"
+                    name: "Walmart"
+                    location:
+                      city: "O'Fallon"
+                      state: "MO"
+                      country: "USA"
+                  security:
+                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                    magStripeTrack2Data: "9456963027849254982D8739279"
+                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                    pinBlock: "AQJeCgULCwc="
+                    pinBlockFormat: "ISO_FORMAT_0"
+                    pinKeyIndex: 98
+                    digitalPayment:
+                      merchantId: "d3d3Lm1hY3lzLmNvbQ=="
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+                    avsResponseCode: "P"
+                    cvcResponseCode: "M"
+            Fraud-Services-Advice:
+              description: Support Customer generated advice to Mastercard when Original transaction is declined by Issuer
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                request:
+                  serviceType: "ADVICE"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    validationCode: "567"
+                    country: "840"
+                    token:
+                      type: "C"
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "00"
+                    toAccountType: "00"
+                    purpose: 0
+                    typeIdentifier: "C01"
+                    amount: 50000
+                    currency: "840"
+                    settlementAmount: 50000
+                    billingAmount: 50000
+                    category: "T"
+                    adviceReasonCode: "201"
+                    promotionCode: "GREECE"
+                    cardholderVerificationMethod: "P"
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                    pinEntryMode: "0"
+                    attendance: 0
+                    location: 0
+                    cardholderPresence: 0
+                    cardPresence: 0
+                    cardCaptureCapabilities: 0
+                    transactionSecurity: 0
+                    cardholderActivated: 4
+                    cardDataInputCapability: 2
+                    authorizationLifeCycle: 0
+                    country: "840"
+                    postalCode: "63026"
+                  cardAcceptor:
+                    merchantType: "5499"
+                    terminalId: "ID12345"
+                    acquirerId: "123456"
+                    merchantId: "ID12345"
+                    name: "Walmart"
+                    location:
+                      city: "O'Fallon"
+                      state: "MO"
+                      country: "USA"
+                  security:
+                    magStripeTrack2Data: "9456963027849254982D8739279"
+                  authentication:
+                    cvcResponseCode: "M"
+                  original:
+                    responseCode: "00"
+                    mastercardReferenceId: "123456789"
+                    securityServices:
+                      - code: "18"
+                        result: "C"
+                      - code: "18"
+                        result: "U"
+            Combined Response:
+              value:
+                response:
+                  responseCode: "00"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  mastercardReferenceId: "123456789"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-01"
+                    token:
+                      transactionId: "123456"
+                      type: "C"
+                      accountNumber: "5400000000000000"
+                      expiry: "2021-03"
+                      assuranceLevel: "12"
+                      requestorId: "1234"
+                    paymentAccountReference: "12345678901234567890123456789"
+                    pinServiceCode: "PIN_VERIFIED"
+                    cvcResponseCode: "M"
+                  wallet:
+                    id: "103"
+                  services:
+                    - code: "50"
+                      result: "C"
+                    - code: "51"
+                      result: "V"
+                      issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                      atcInfo: "0008800042G"
+                    - code: "52"
+                      result: "C"
+                      atcInfo: "0008800042G"
+                      timeValidationInfo: "000042310004201"
+                  securityServices:
+                    - code: "18"
+                      result: "C"
+                    - code: "18"
+                      result: "U"
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+                request:
+                  serviceType: "ORIGINAL"
+                  clientTransactionId: "03vLwCxtn3/pZCliH5mXY1Bozs5HspdIdn20H/GTRrU="
+                  customer:
+                    id: "567899"
+                  card:
+                    accountNumber: "5400000000000000"
+                    expiry: "2023-12"
+                    validationCode: "567"
+                    sequenceNumber: "891"
+                    country: "840"
+                    product: "MC"
+                    alm:
+                      serviceCode: "00000"
+                      productCode: "456"
+                      productClass: "1"
+                      rateType: "801"
+                      mo:
+                        acceptanceBrand: "MCC"
+                        interchangeIndicator: "D"
+                        issuerAccountRange: "123456"
+                    token:
+                      transactionId: "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA="
+                  transaction:
+                    transactionType: "00"
+                    fromAccountType: "20"
+                    toAccountType: "20"
+                    purpose: 0
+                    typeIdentifier: "C01"
+                    amount: "000000050000"
+                    currency: "840"
+                    settlementAmount: "000000050000"
+                    settlementCurrency: "840"
+                    billingAmount: "000000050000"
+                    billingCurrency: "840"
+                    submittedOn: "2019-04-12T10:28:04.651"
+                    billingConversionRate: "00050000"
+                    settlementDate: "2019-04-12"
+                    category: "T"
+                    adviceReasonCode: "000"
+                    promotionCode: "GREECE"
+                    cardholderVerificationMethod: "P"
+                  terminal:
+                    panEntryMode: "CONTACTLESS_MAGNETIC_STRIPE"
+                    pinEntryMode: "0"
+                    attendance: 0
+                    location: 0
+                    cardholderPresence: 0
+                    cardPresence: 0
+                    cardCaptureCapabilities: 0
+                    transactionSecurity: 0
+                    cardholderActivated: 4
+                    cardDataInputCapability: 2
+                    authorizationLifeCycle: 0
+                    country: "840"
+                    postalCode: "63026"
+                  cardAcceptor:
+                    merchantType: "5499"
+                    terminalId: "ID12345"
+                    acquirerId: "123456"
+                    merchantId: "ID12345"
+                    name: "Walmart"
+                    location:
+                      city: "O'Fallon"
+                      state: "MO"
+                      country: "USA"
+                  security:
+                    chipData: "NUYyQTAyMDk3ODgyMDI1QzAwOTUwNUFCMjZGQkNEQjE5QTAzMDMwNjE5OUMwMTAwOUYwMjA2MDAwMDAwMDEwMDAwOUYxMDEyMDAxMkUxMjM0QkM3QkJDQzk2MUYwMDAwMDAwMDAwMDAwMEZGOUYxQTAyMDg0MDlGMjcwMTgwOUYzNjAyMDBBMjlGMzcwNDAwMDAwMDU2OUYyNjA4N0FDMjEzMEM3OEQyQTQ3Mw=="
+                    magStripeTrack1Data: "94569790763027849890254982D87398989279"
+                    magStripeTrack2Data: "9456963027849254982D8739279"
+                    universalCardholderAuthenticationField: "aduX3UYzkZWYd_JQ1FbXcaBa"
+                    pinBlock: "AQJeCgULCwc="
+                    pinBlockFormat: "ISO_FORMAT_0"
+                    pinKeyIndex: 98
+                  authentication:
+                    securityProtocol: 9
+                    cardholderAuthentication: 0
+                    ucafCollectionIndicator: 0
+                    cvcResponseCode: "M"
+                  original:
+                    mastercardReferenceId: "123456789"
+                    transaction:
+                      transactionType: "00"
+                      fromAccountType: "20"
+                      toAccountType: "20"
+                      purpose: 0
+                      typeIdentifier: "C01"
+                      amount: "000000050000"
+                      currency: "840"
+                      settlementAmount: "000000050000"
+                      settlementCurrency: "840"
+                      billingAmount: "000000050000"
+                      billingCurrency: "840"
+                      submittedOn: "2019-04-12T10:28:04.651"
+                      billingConversionRate: "00050000"
+                      settlementDate: "2019-04-12"
+                      category: "T"
+                      adviceReasonCode: "000"
+                    authorizationCode: "123456"
+                    responseCode: "00"
+                    messageType: "0110"
+                    services:
+                      - code: "50"
+                        result: "C"
+                      - code: "51"
+                        result: "V"
+                        issuerAuthenticationData: "AQheCgcLCwcBCF4KBwsLBw=="
+                        atcInfo: "0008800042G"
+                    securityServices:
+                      - code: "18"
+                        result: "C"
+                      - code: "18"
+                        result: "U"
+    ResponseError:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+          examples:
+            ValidationError:
+              summary: Validation Error
+              value:
+                Errors:
+                  Errors:
+                    Error:
+                      source: "network-access-services"
+                      reasonCode: "VALIDATION_ERROR"
+                      description: "card.accountNumber"
+                      recoverable: "false"
+                      details: "size must be between 12 and 19"

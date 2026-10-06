@@ -6,10 +6,10 @@ import com.mastercard.developer.service.DSAService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
-import org.openapitools.client.model.CardRequest;
+import org.openapitools.client.model.CardRequestDetails;
 import org.openapitools.client.model.Customer;
-import org.openapitools.client.model.DirectServiceRequest;
-import org.openapitools.client.model.DirectServiceResponse;
+import org.openapitools.client.model.DirectServiceRequestDetails;
+import org.openapitools.client.model.DirectServiceResponseDetails;
 import org.openapitools.client.model.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -71,9 +71,9 @@ public class ServicesExecutor {
    * USE CASE 1: ALL FIELDS/COMBINED
    * User performs an API request with a combination of fields from different use cases below to execute multiple use cases simultaneously.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse combinedRequest() throws ServiceException {
+  private DirectServiceResponseDetails combinedRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildAllFieldsRequest());
   }
 
@@ -81,9 +81,9 @@ public class ServicesExecutor {
    * USE CASE 2: E-COMMERCE
    * User performs an API request for a transaction using a digital token online, not in person.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse eCommerceRequest() throws ServiceException {
+  private DirectServiceResponseDetails eCommerceRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildEcommerceRequest());
   }
 
@@ -91,9 +91,9 @@ public class ServicesExecutor {
    * USE CASE 3: IN-PERSON
    * User performs an API request for a transaction using a digital token in person.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse inPersonRequest() throws ServiceException {
+  private DirectServiceResponseDetails inPersonRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildInPersonRequest());
   }
 
@@ -101,9 +101,9 @@ public class ServicesExecutor {
    * USE CASE 4: REVERSAL
    * User performs an API request for a reversal of an API request previously made.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse reversalRequest() throws ServiceException {
+  private DirectServiceResponseDetails reversalRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildReversalRequest());
   }
 
@@ -111,9 +111,9 @@ public class ServicesExecutor {
    * USE CASE 5: ACQUIRER ADVICE
    * User performs an API request to gather advice about a previous authorization that was made.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse acquirerAdviceRequest() throws ServiceException {
+  private DirectServiceResponseDetails acquirerAdviceRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildAcquirerAdviceRequest());
   }
 
@@ -121,9 +121,9 @@ public class ServicesExecutor {
    * USE CASE 6: TRANSACTION HISTORY ADVICE
    * User performs an API request to gather advice about a previous transaction that was made.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse transactionHistoryAdviceRequest() throws ServiceException {
+  private DirectServiceResponseDetails transactionHistoryAdviceRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildTransactionHistoryAdviceRequest());
   }
 
@@ -131,9 +131,9 @@ public class ServicesExecutor {
    * USE CASE 7: FRAUD SERVICES ORIGINAL
    * User performs an API request to request Mastercard fraud services to be performed for a particular transaction.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse fraudServicesOriginalRequest() throws ServiceException {
+  private DirectServiceResponseDetails fraudServicesOriginalRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildFraudServicesOriginalRequest());
   }
 
@@ -141,9 +141,9 @@ public class ServicesExecutor {
    * USE CASE 8: FRAUD SERVICES ADVICE
    * User performs an API request to gather advice about a previous fraud services original request (use case above) that was made.
    *
-   * @return An instance of DirectServiceResponse
+   * @return An instance of DirectServiceResponseDetails
    */
-  private DirectServiceResponse fraudServicesAdviceRequest() throws ServiceException {
+  private DirectServiceResponseDetails fraudServicesAdviceRequest() throws ServiceException {
     return dsaService.getResponse(DirectServicesExample.buildFraudServicesAdviceRequest());
   }
 
@@ -152,13 +152,13 @@ public class ServicesExecutor {
    * Requests can fail for various reasons, this scenario is added so that you should know what to expect when there is a failure.
    */
   private void errorHandling() {
-    DirectServiceRequest errorRequest = new DirectServiceRequest();
+    DirectServiceRequestDetails errorRequest = new DirectServiceRequestDetails();
 
     errorRequest.setServiceType("ORIGINAL");
     Customer customer = new Customer();
     customer.setId("567899");
     errorRequest.setCustomer(customer);
-    CardRequest card = new CardRequest();
+    CardRequestDetails card = new CardRequestDetails();
     // Intentionally setting this value to show exception handling scenario.
     card.setAccountNumber(null);
     errorRequest.setCard(card);

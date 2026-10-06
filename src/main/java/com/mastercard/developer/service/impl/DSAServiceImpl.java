@@ -8,8 +8,8 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.JSON;
 import org.openapitools.client.api.DirectServicesApi;
-import org.openapitools.client.model.DirectServiceRequest;
-import org.openapitools.client.model.DirectServiceResponse;
+import org.openapitools.client.model.DirectServiceRequestDetails;
+import org.openapitools.client.model.DirectServiceResponseDetails;
 import org.openapitools.client.model.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +36,12 @@ public class DSAServiceImpl implements DSAService {
    * @param directServiceRequest DirectServiceRequest
    * @return An instance of DirectServiceResponse
    */
-  public DirectServiceResponse getResponse(DirectServiceRequest directServiceRequest)
+  public DirectServiceResponseDetails getResponse(DirectServiceRequestDetails directServiceRequest)
       throws ServiceException {
     try {
       log.info("<-- CALLING DIRECT SERVICES ENDPOINT -->");
-      DirectServiceResponse directServiceResponse = directServicesApi.servicesPost(directServiceRequest);
+      DirectServiceResponseDetails directServiceResponse =
+          directServicesApi.directServiceApi(directServiceRequest);
       Assertions.assertNotNull(directServiceResponse, "Missing object 'directServiceResponse' when calling servicesPost(Async)");
       log.info("<-- DIRECT SERVICES TRANSACTION SUCCESSFULLY -->");
       return directServiceResponse;

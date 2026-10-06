@@ -18,7 +18,18 @@ All properties for the request object are listed in the [Direct Service Response
         "transactionId": "fe8Rr7GWCOXCRaM6KNWDb/s4gyxalgQKt/M8L6BdndA=",
         "type": "C"
       },
-      "cvcResponseCode": "M"
+      "cvcResponseCode": "M",
+      "alm": {
+        "serviceCode": "00000",
+        "productCode": "456",
+        "productClass": "1",
+        "rateType": "801",
+        "mo": {
+          "acceptanceBrand": "MCC",
+          "interchangeIndicator": "D",
+          "issuerAccountRange": "123456"
+        }
+      }
     },
     "security": {
       "pinBlock": "AQJeCgULCwc="

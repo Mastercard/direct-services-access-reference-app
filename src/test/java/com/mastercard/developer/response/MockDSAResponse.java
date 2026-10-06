@@ -1,16 +1,17 @@
 package com.mastercard.developer.response;
 
-import com.mastercard.developer.example.DirectServicesExample;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.client.model.AuthenticationResponse;
-import org.openapitools.client.model.CardResponse;
-import org.openapitools.client.model.DigitalPaymentResponse;
-import org.openapitools.client.model.DirectServiceResponse;
+import org.openapitools.client.model.AlmResponseDetails;
+import org.openapitools.client.model.AuthenticationResponseDetails;
+import org.openapitools.client.model.CardResponseDetails;
+import org.openapitools.client.model.DigitalPaymentResponseDetails;
+import org.openapitools.client.model.DirectServiceResponseDetails;
+import org.openapitools.client.model.MoResponseDetails;
 import org.openapitools.client.model.ResponseDetails;
-import org.openapitools.client.model.SecurityResponse;
+import org.openapitools.client.model.SecurityResponseDetails;
 import org.openapitools.client.model.Service;
-import org.openapitools.client.model.TokenResponse;
+import org.openapitools.client.model.TokenResponseDetails;
 
 public class MockDSAResponse {
   public static final String ACCOUNT_NUMBER = "5400000000000000";
@@ -22,14 +23,21 @@ public class MockDSAResponse {
   public static final byte[] MERCHANT_ID = "ZDNkM0xtMWhZM2x6TG1OdmJR".getBytes();
   public static final byte[] PIN_BLOCK = "AQJeCgULCwc=".getBytes();
 
-  public static DirectServiceResponse getCombinedResponse() {
-    DirectServiceResponse combinedResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getCombinedResponse() {
+    DirectServiceResponseDetails combinedResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.setClientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    responseDetails.setCard(new CardResponse().accountNumber(ACCOUNT_NUMBER));
-    responseDetails.setSecurity(new SecurityResponse().digitalPayment(new DigitalPaymentResponse().merchantId(MERCHANT_ID)));
+
+    CardResponseDetails cardResponse = new CardResponseDetails();
+    cardResponse.setAccountNumber(ACCOUNT_NUMBER);
+    cardResponse.setAlm(getAlmResponseDetails());
+    responseDetails.setCard(cardResponse);
+
+    responseDetails.setSecurity(
+        new SecurityResponseDetails()
+            .digitalPayment(new DigitalPaymentResponseDetails().merchantId(MERCHANT_ID)));
     List<Service> services = new ArrayList<>();
     services.add(new Service().code("50").result("C"));
     services.add(new Service().code("51").result("V"));
@@ -38,127 +46,144 @@ public class MockDSAResponse {
     sercurityServices.add(new Service().code("18").result("C"));
     sercurityServices.add(new Service().code("18").result("U"));
     responseDetails.setSecurityServices(sercurityServices);
-    responseDetails.setAuthentication(new AuthenticationResponse()
-        .securityProtocol(9)
-        .cardholderAuthentication(0)
-        .ucafCollectionIndicator(0));
+    responseDetails.setAuthentication(
+        new AuthenticationResponseDetails()
+            .securityProtocol(9)
+            .cardholderAuthentication(0)
+            .ucafCollectionIndicator(0));
     combinedResponse.setResponse(responseDetails);
-    combinedResponse.request(DirectServicesExample.buildAllFieldsRequest());
     return combinedResponse;
   }
 
-  public static DirectServiceResponse getECommerceResponse() {
-    DirectServiceResponse eCommerceResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getECommerceResponse() {
+    DirectServiceResponseDetails eCommerceResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.setClientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
 
-    CardResponse cardResponse = new CardResponse();
+    CardResponseDetails cardResponse = new CardResponseDetails();
     cardResponse.setAccountNumber(ACCOUNT_NUMBER);
     cardResponse.setCvcResponseCode(CVC_RESPONSE_CODE);
-    cardResponse.setToken(new TokenResponse().type(TOKEN_TYPE));
+    cardResponse.setToken(new TokenResponseDetails().type(TOKEN_TYPE));
+    cardResponse.setAlm(getAlmResponseDetails());
     responseDetails.setCard(cardResponse);
-    responseDetails.setSecurity(new SecurityResponse().pinBlock(PIN_BLOCK));
-    responseDetails.setAuthentication(new AuthenticationResponse()
-        .securityProtocol(9)
-        .cardholderAuthentication(0)
-        .ucafCollectionIndicator(0));
+
+    responseDetails.setSecurity(new SecurityResponseDetails().pinBlock(PIN_BLOCK));
+    responseDetails.setAuthentication(
+        new AuthenticationResponseDetails()
+            .securityProtocol(9)
+            .cardholderAuthentication(0)
+            .ucafCollectionIndicator(0));
     eCommerceResponse.setResponse(responseDetails);
-    eCommerceResponse.setRequest(DirectServicesExample.buildEcommerceRequest());
     return eCommerceResponse;
   }
 
-  public static DirectServiceResponse getInPersonResponse() {
-    DirectServiceResponse inPersonResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getInPersonResponse() {
+    DirectServiceResponseDetails inPersonResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.clientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    responseDetails.card(new CardResponse().accountNumber(ACCOUNT_NUMBER));
+
+    CardResponseDetails cardResponse = new CardResponseDetails();
+    cardResponse.setAccountNumber(ACCOUNT_NUMBER);
+    cardResponse.setAlm(getAlmResponseDetails());
+    responseDetails.card(cardResponse);
 
     inPersonResponse.setResponse(responseDetails);
-    inPersonResponse.request(DirectServicesExample.buildFraudServicesOriginalRequest());
     return inPersonResponse;
   }
 
-  public static DirectServiceResponse getReversalResponse() {
-    DirectServiceResponse reversalResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getReversalResponse() {
+    DirectServiceResponseDetails reversalResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    responseDetails.card(new CardResponse().accountNumber(ACCOUNT_NUMBER));
+
+    CardResponseDetails cardResponse = new CardResponseDetails();
+    cardResponse.setAccountNumber(ACCOUNT_NUMBER);
+    cardResponse.setAlm(getAlmResponseDetails());
+    responseDetails.card(cardResponse);
 
     reversalResponse.setResponse(responseDetails);
-    reversalResponse.request(DirectServicesExample.buildReversalRequest());
     return reversalResponse;
   }
 
-
-  public static DirectServiceResponse getAcquirerAdviceResponse() {
-    DirectServiceResponse acquirerAdviceResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getAcquirerAdviceResponse() {
+    DirectServiceResponseDetails acquirerAdviceResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.clientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    responseDetails.card(new CardResponse().accountNumber(ACCOUNT_NUMBER));
+
+    CardResponseDetails cardResponse = new CardResponseDetails();
+    cardResponse.setAccountNumber(ACCOUNT_NUMBER);
+    cardResponse.setAlm(getAlmResponseDetails());
+    responseDetails.card(cardResponse);
 
     acquirerAdviceResponse.setResponse(responseDetails);
-    acquirerAdviceResponse.request(DirectServicesExample.buildAcquirerAdviceRequest());
     return acquirerAdviceResponse;
   }
 
-  public static DirectServiceResponse getTransactionHistoryAdviceResponse() {
-    DirectServiceResponse transactionHistoryAdviceResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getTransactionHistoryAdviceResponse() {
+    DirectServiceResponseDetails transactionHistoryAdviceResponse =
+        new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.clientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    responseDetails.card(new CardResponse().accountNumber(ACCOUNT_NUMBER));
+
+    CardResponseDetails cardResponse = new CardResponseDetails();
+    cardResponse.setAccountNumber(ACCOUNT_NUMBER);
+    cardResponse.setAlm(getAlmResponseDetails());
+    responseDetails.card(cardResponse);
+
     List<Service> services = new ArrayList<>();
     services.add(new Service().code("50").result("C"));
     services.add(new Service().code("51").result("V"));
     responseDetails.setServices(services);
     transactionHistoryAdviceResponse.setResponse(responseDetails);
-    transactionHistoryAdviceResponse.request(DirectServicesExample.buildTransactionHistoryAdviceRequest());
     return transactionHistoryAdviceResponse;
   }
 
-  public static DirectServiceResponse getFraudServicesOriginalResponse() {
-    DirectServiceResponse fraudServicesOriginalResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getFraudServicesOriginalResponse() {
+    DirectServiceResponseDetails fraudServicesOriginalResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.clientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    CardResponse cardResponse = new CardResponse();
+    CardResponseDetails cardResponse = new CardResponseDetails();
     cardResponse.setAccountNumber(ACCOUNT_NUMBER);
     cardResponse.cvcResponseCode(CVC_RESPONSE_CODE);
-    cardResponse.setToken(new TokenResponse().type(TOKEN_TYPE));
+    cardResponse.setToken(new TokenResponseDetails().type(TOKEN_TYPE));
+    cardResponse.setAlm(getAlmResponseDetails());
     responseDetails.card(cardResponse);
     List<Service> securityServices = new ArrayList<>();
     securityServices.add(new Service().code("18C").result("C"));
     securityServices.add(new Service().code("18U").result("U"));
     responseDetails.services(securityServices);
 
-    responseDetails.setAuthentication(new AuthenticationResponse()
-        .securityProtocol(9)
-        .cardholderAuthentication(0)
-        .ucafCollectionIndicator(0));
+    responseDetails.setAuthentication(
+        new AuthenticationResponseDetails()
+            .securityProtocol(9)
+            .cardholderAuthentication(0)
+            .ucafCollectionIndicator(0));
     fraudServicesOriginalResponse.setResponse(responseDetails);
-    fraudServicesOriginalResponse.request(DirectServicesExample.buildFraudServicesOriginalRequest());
     return fraudServicesOriginalResponse;
   }
 
-  public static DirectServiceResponse getFraudServicesAdviceResponse() {
-    DirectServiceResponse fraudServicesAdviceResponse = new DirectServiceResponse();
+  public static DirectServiceResponseDetails getFraudServicesAdviceResponse() {
+    DirectServiceResponseDetails fraudServicesAdviceResponse = new DirectServiceResponseDetails();
     ResponseDetails responseDetails = new ResponseDetails();
     responseDetails.setResponseCode(RESPONSE_CODE);
     responseDetails.clientTransactionId(CLIENT_TRANSACTION_ID);
     responseDetails.setMastercardReferenceId(MASTERCARD_REFERENCE_ID);
-    CardResponse cardResponse = new CardResponse();
+    CardResponseDetails cardResponse = new CardResponseDetails();
     cardResponse.setAccountNumber(ACCOUNT_NUMBER);
     cardResponse.cvcResponseCode(CVC_RESPONSE_CODE);
-    cardResponse.setToken(new TokenResponse().type(TOKEN_TYPE));
+    cardResponse.setToken(new TokenResponseDetails().type(TOKEN_TYPE));
+    cardResponse.setAlm(getAlmResponseDetails());
     responseDetails.card(cardResponse);
     List<Service> services = new ArrayList<>();
     services.add(new Service().code("18").result("C"));
@@ -166,7 +191,17 @@ public class MockDSAResponse {
     responseDetails.services(services);
 
     fraudServicesAdviceResponse.setResponse(responseDetails);
-    fraudServicesAdviceResponse.request(DirectServicesExample.buildFraudServicesAdviceRequest());
     return fraudServicesAdviceResponse;
+  }
+
+  private static AlmResponseDetails getAlmResponseDetails() {
+    AlmResponseDetails almResponseDetails = new AlmResponseDetails();
+    almResponseDetails.setServiceCode("00000");
+    almResponseDetails.setProductCode("456");
+    almResponseDetails.setProductClass("1");
+    almResponseDetails.setRateType("801");
+    almResponseDetails.setMo(
+        new MoResponseDetails().acceptanceBrand(MoResponseDetails.AcceptanceBrandEnum.MCC));
+    return almResponseDetails;
   }
 }

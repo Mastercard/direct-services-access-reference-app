@@ -1,10 +1,10 @@
 package com.mastercard.developer.service;
 
 import com.mastercard.developer.exception.ServiceException;
-import org.openapitools.client.model.DirectServiceRequest;
-import org.openapitools.client.model.DirectServiceResponse;
+import org.openapitools.client.model.DirectServiceRequestDetails;
+import org.openapitools.client.model.DirectServiceResponseDetails;
 
 public interface DSAService {
-  DirectServiceResponse getResponse(DirectServiceRequest directServiceRequest)
+  DirectServiceResponseDetails getResponse(DirectServiceRequestDetails directServiceRequest)
       throws ServiceException;
 }
